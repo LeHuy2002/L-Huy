@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chúc mừng sinh nhật bé Thùy Dương!</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Pacifico', cursive;
+            overflow: hidden;
+        }
+
+        .birthday-container {
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            color: #e91e63;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .date {
+            font-size: 1.8em;
+            color: #9c27b0;
+            margin-bottom: 30px;
+            animation: slideIn 2s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            0% { opacity: 0; transform: translateX(-50px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        .fireworks-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: white;
+            border-radius: 50%;
+            animation: firework-explode 2s ease-out forwards;
+        }
+
+        @keyframes firework-explode {
+            0% { transform: scale(0); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        .message {
+            font-size: 1.2em;
+            color: #555;
+            margin-top: 30px;
+            animation: fadeInUp 2s ease-in-out;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .balloons-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .balloon {
+            position: absolute;
+            width: 30px;
+            height: 40px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            background-color: #ffc107;
+            animation: balloon-float 5s linear infinite;
+        }
+
+        @keyframes balloon-float {
+            0% { transform: translateY(100vh); }
+            100% { transform: translateY(-100px); }
+        }
+        .heart {
+          position: absolute;
+          width: 100px;
+          height: 100px;
+          background-color: red;
+          transform: rotate(-45deg);
+          animation: heartbeat 1.5s ease infinite;
+        }
+        .heart::before,
+        .heart::after {
+          content: "";
+          position: absolute;
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          background-color: red;
+        }
+        .heart::before {
+          top: -50px;
+          left: 0;
+        }
+        .heart::after {
+          top: 0;
+          left: 50px;
+        }
+        @keyframes heartbeat {
+            0% { transform: rotate(-45deg) scale(1); }
+            25% { transform: rotate(-45deg) scale(1.1); }
+            50% { transform: rotate(-45deg) scale(1); }
+            75% { transform: rotate(-45deg) scale(1.1); }
+            100% { transform: rotate(-45deg) scale(1); }
+        }
+        audio {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 300px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="birthday-container">
+    <h1>Chúc mừng sinh nhật bé Thùy Dương!</h1>
+    <p class="date">Ngày 20 tháng 6</p>
+    <p class="message">
+        Chúc em sinh nhật vui vẻ!<br>
+        Mong rằng tuổi mới sẽ mang đến cho em thật nhiều niềm vui và những điều bất ngờ thú vị.<br>
+        Chúc em luôn xinh đẹp, rạng rỡ như những đóa hoa và ngọt ngào như những viên kẹo.<br>
+        Chúc em tương lai sẽ có người luôn yêu thương em, chiều chuộng em hết mực.<br>
+        Chúc em mãi mãi là nàng công chúa bé nhỏ của mọi người.<br>
+        Chúc em tất cả những điều tốt đẹp nhất trên thế gian này!
+    </p>
+</div>
+
+<div class="fireworks-container">
+    <script>
+        function createFirework() {
+            const firework = document.createElement('div');
+            firework.classList.add('firework');
+            firework.style.left = Math.random() * 100 + 'vw';
+            firework.style.top = Math.random() * 50 + 'vh';
+            firework.style.backgroundColor = ['#ffc107', '#e91e63', '#9c27b0'][Math.floor(Math.random() * 3)];
+            document.querySelector('.fireworks-container').appendChild(firework);
+
+            setTimeout(() => {
+                firework.remove();
+            }, 2000);
+        }
+
+        setInterval(createFirework, 500);
+    </script>
+</div>
+
+<div class="balloons-container">
+    <script>
+        function createBalloon() {
+            const balloon = document.createElement('div');
+            balloon.classList.add('balloon');
+            balloon.style.left = Math.random() * 100 + 'vw';
+            balloon.style.backgroundColor = ['#ffc107', '#e91e63', '#9c27b0', '#8bc34a', '#03a9f4'][Math.floor(Math.random() * 5)];
+            balloon.style.animationDuration = Math.random() * 3 + 4 + 's';
+            document.querySelector('.balloons-container').appendChild(balloon);
+
+            setTimeout(() => {
+                balloon.remove();
+            }, 5000);
+        }
+
+        setInterval(createBalloon, 300);
+    </script>
+</div>
+
+<div class="heart" style="top: 20%; left: 10%;"></div>
+<div class="heart" style="top: 20%; right: 10%;"></div>
+<div class="heart" style="bottom: 20%; left: 10%;"></div>
+<div class="heart" style="bottom: 20%; right: 10%;"></div>
+
+<audio controls autoplay loop>
+    <source src="birthday.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
+</body>
+</html>
