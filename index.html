@@ -349,6 +349,9 @@
     const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#800080', '#008000']; // Mảng màu
     let colorIndex = 0;
 
+    // Đặt text ban đầu cho nút
+    musicButton.textContent = 'Nhấn vào sẽ có bất ngờ☺️';
+
     function initAudioAnalysis() {
         if (!audioContext) {
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -384,7 +387,7 @@
         if (audioElement.paused) {
             audioElement.play();
             isPlaying = true;
-            musicButton.textContent = 'Cái này anh làm trong 15 ngày á mong em sẽ vui khi thấy nó☺️!';
+            musicButton.textContent = 'Cái này anh tự tay làm á mong em sẽ vui khi nhận được😊☺️';
             bodyElement.classList.add('music-playing');
             initAudioAnalysis();
             fireworkInterval = setInterval(createFireworkBurst, 3000);
@@ -403,7 +406,7 @@
         } else {
             audioElement.pause();
             isPlaying = false;
-            musicButton.textContent = 'Bấm vào đây có bất ngờ nè😂!';
+            musicButton.textContent = 'Nhấn vào sẽ có bất ngờ☺️';
             bodyElement.classList.remove('music-playing');
             clearInterval(fireworkInterval);
             clearInterval(confettiInterval);
