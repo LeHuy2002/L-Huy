@@ -2,25 +2,36 @@
 <html>
 <head>
     <title>Chúc mừng sinh nhật bé Thùy Dương!</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
             background: linear-gradient(135deg, #ff9a9e, #fad0c4);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             font-family: 'Pacifico', cursive;
-            overflow: hidden;
+            overflow-x: hidden;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative; /* Để container pháo giấy có thể định vị tuyệt đối */
         }
 
         .birthday-container {
             text-align: center;
             position: relative;
+            background-color: rgba(255, 255, 255, 0.6);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            max-width: 90%;
+            z-index: 1; /* Đảm bảo nội dung hiển thị trên pháo giấy */
         }
 
         h1 {
-            font-size: 3.5em;
+            font-size: clamp(2em, 6vw, 3.5em);
             color: #e91e63;
             text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
             margin-bottom: 20px;
@@ -33,7 +44,7 @@
         }
 
         .date {
-            font-size: 1.8em;
+            font-size: clamp(1.2em, 4vw, 1.8em);
             color: #9c27b0;
             margin-bottom: 30px;
             animation: slideIn 2s ease-in-out;
@@ -44,30 +55,8 @@
             100% { opacity: 1; transform: translateX(0); }
         }
 
-        .fireworks-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .firework {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: white;
-            border-radius: 50%;
-            animation: firework-explode 2s ease-out forwards;
-        }
-
-        @keyframes firework-explode {
-            0% { transform: scale(0); opacity: 1; }
-            50% { transform: scale(1.5); opacity: 1; }
-            100% { transform: scale(0); opacity: 0; }
-        }
-
         .message {
-            font-size: 1.2em;
+            font-size: clamp(1em, 3vw, 1.2em);
             color: #555;
             margin-top: 30px;
             animation: fadeInUp 2s ease-in-out;
@@ -79,11 +68,30 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        .balloons-container {
-            position: absolute;
+        .fireworks-container, .balloons-container {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
+            z-index: -1;
+        }
+
+        .firework {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: white;
+            border-radius: 50%;
+            animation: firework-explode 1.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        @keyframes firework-explode {
+            0% { transform: scale(0.5); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: scale(1.5) translate(0, -20px); opacity: 0; }
         }
 
         .balloon {
@@ -91,38 +99,42 @@
             width: 30px;
             height: 40px;
             border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            background-color: #ffc107;
+            opacity: 0.7;
             animation: balloon-float 5s linear infinite;
         }
 
         @keyframes balloon-float {
-            0% { transform: translateY(100vh); }
-            100% { transform: translateY(-100px); }
+            0% { transform: translateY(100vh) rotate(0deg); }
+            50% { transform: rotate(10deg); }
+            100% { transform: translateY(-100px) rotate(-10deg); }
         }
+
         .heart {
-          position: absolute;
-          width: 100px;
-          height: 100px;
+          position: fixed;
+          width: 50px;
+          height: 50px;
           background-color: red;
           transform: rotate(-45deg);
           animation: heartbeat 1.5s ease infinite;
+          opacity: 0.5;
+          z-index: -1;
         }
         .heart::before,
         .heart::after {
           content: "";
           position: absolute;
-          width: 100px;
-          height: 100px;
+          width: 50px;
+          height: 50px;
           border-radius: 50%;
           background-color: red;
         }
         .heart::before {
-          top: -50px;
+          top: -25px;
           left: 0;
         }
         .heart::after {
           top: 0;
-          left: 50px;
+          left: 25px;
         }
         @keyframes heartbeat {
             0% { transform: rotate(-45deg) scale(1); }
@@ -131,11 +143,58 @@
             75% { transform: rotate(-45deg) scale(1.1); }
             100% { transform: rotate(-45deg) scale(1); }
         }
-        audio {
+
+        .heart.top-left { top: 15%; left: 10%; }
+        .heart.top-right { top: 15%; right: 10%; }
+        .heart.bottom-left { bottom: 15%; left: 10%; }
+        .heart.bottom-right { bottom: 15%; right: 10%; }
+
+        #music-button {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            background-color: #f44336;
+            color: white;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        #music-button:hover {
+            background-color: #d32f2f;
+        }
+
+        .confetti-container {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            width: 300px;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #fce18a;
+            border-radius: 5px;
+            opacity: 0;
+            animation: confetti-fall 5s ease-out forwards, confetti-rotate 3s ease-in-out infinite;
+            transform-origin: center center;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translate(-50%, -50%) translateY(-100%); opacity: 1; }
+            100% { transform: translate(-50%, -50%) translateY(110%); opacity: 0.7; }
+        }
+
+        @keyframes confetti-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
@@ -144,64 +203,140 @@
 
 <div class="birthday-container">
     <h1>Chúc mừng sinh nhật bé Thùy Dương!</h1>
-    <p class="date">Ngày 20 tháng 6</p>
+    <p class="date">Ngày 20 tháng 6
+    <br> Ngày mà một thiên thần nhỏ được sinh ra!</p>
     <p class="message">
-        Chúc em sinh nhật vui vẻ!<br>
+        Chúc em sinh nhật vui vẻ !<br>
         Mong rằng tuổi mới sẽ mang đến cho em thật nhiều niềm vui và những điều bất ngờ thú vị.<br>
         Chúc em luôn xinh đẹp, rạng rỡ như những đóa hoa và ngọt ngào như những viên kẹo.<br>
         Chúc em tương lai sẽ có người luôn yêu thương em, chiều chuộng em hết mực.<br>
-        Chúc em mãi mãi là nàng công chúa bé nhỏ của mọi người.<br>
-        Chúc em tất cả những điều tốt đẹp nhất trên thế gian này!
+        Chúc em mãi mãi là nàng công chúa bé nhỏ của người mà em thương.<br>
+        Gửi đến em những lời chúc tốt đẹp nhất từ trái tim!
     </p>
+
+    <button id="music-button">Bật nhạc & Pháo sáng!</button>
+
 </div>
 
-<div class="fireworks-container">
-    <script>
-        function createFirework() {
-            const firework = document.createElement('div');
-            firework.classList.add('firework');
-            firework.style.left = Math.random() * 100 + 'vw';
-            firework.style.top = Math.random() * 50 + 'vh';
-            firework.style.backgroundColor = ['#ffc107', '#e91e63', '#9c27b0'][Math.floor(Math.random() * 3)];
-            document.querySelector('.fireworks-container').appendChild(firework);
+<div class="fireworks-container"></div>
+<div class="balloons-container"></div>
+<div class="confetti-container"></div>
 
+<div class="heart top-left"></div>
+<div class="heart top-right"></div>
+<div class="heart bottom-left"></div>
+<div class="heart bottom-right"></div>
+
+
+<script>
+    // --- Pháo hoa ---
+    const fireworksContainer = document.querySelector('.fireworks-container');
+    function createFirework() {
+        if (!fireworksContainer) return;
+        const firework = document.createElement('div');
+        firework.classList.add('firework');
+        firework.style.left = Math.random() * 100 + 'vw';
+        firework.style.top = Math.random() * 70 + 'vh';
+        firework.style.backgroundColor = ['#ffc107', '#e91e63', '#9c27b0', '#ffffff'][Math.floor(Math.random() * 4)];
+        firework.style.animationDelay = Math.random() * 0.5 + 's';
+        fireworksContainer.appendChild(firework);
+
+        setTimeout(() => {
+            firework.remove();
+        }, 1500 + Math.random() * 500);
+    }
+
+    function createFireworkBurst() {
+        for (let i = 0; i < 50; i++) { // Tạo nhiều pháo hoa hơn cho hiệu ứng nổ
             setTimeout(() => {
-                firework.remove();
-            }, 2000);
+                createFirework();
+            }, Math.random() * 1000); // Thời gian chờ ngắn hơn để tạo hiệu ứng đồng loạt
         }
+    }
 
-        setInterval(createFirework, 500);
-    </script>
-</div>
+    // Tạo pháo hoa ban đầu và sau đó theo khoảng thời gian (khi trang tải)
+    for(let i=0; i<5; i++) { setTimeout(createFirework, Math.random() * 1000); }
+    setInterval(createFirework, 1000); // Giảm tần suất pháo hoa liên tục
 
-<div class="balloons-container">
-    <script>
-        function createBalloon() {
-            const balloon = document.createElement('div');
-            balloon.classList.add('balloon');
-            balloon.style.left = Math.random() * 100 + 'vw';
-            balloon.style.backgroundColor = ['#ffc107', '#e91e63', '#9c27b0', '#8bc34a', '#03a9f4'][Math.floor(Math.random() * 5)];
-            balloon.style.animationDuration = Math.random() * 3 + 4 + 's';
-            document.querySelector('.balloons-container').appendChild(balloon);
+    // --- Bóng bay ---
+    const balloonsContainer = document.querySelector('.balloons-container');
+    function createBalloon() {
+        if (!balloonsContainer) return;
+        const balloon = document.createElement('div');
+        balloon.classList.add('balloon');
+        balloon.style.left = Math.random() * 95 + 'vw';
+        balloon.style.backgroundColor = ['#ffc107', '#e91e63', '#9c27b0', '#8bc34a', '#03a9f4'][Math.floor(Math.random() * 5)];
+        balloon.style.animationDuration = Math.random() * 3 + 5 + 's';
+        balloonsContainer.appendChild(balloon);
 
-            setTimeout(() => {
-                balloon.remove();
-            }, 5000);
+        setTimeout(() => {
+            balloon.remove();
+        }, 8000);
+    }
+     // Tạo bóng bay ban đầu và sau đó theo khoảng thời gian
+    for(let i=0; i<5; i++) { setTimeout(createBalloon, Math.random() * 1000); }
+    setInterval(createBalloon, 1000);
+
+    // --- Pháo giấy (Confetti) ---
+    const confettiContainer = document.querySelector('.confetti-container');
+    function createConfetti() {
+        if (!confettiContainer) return;
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.top = Math.random() * 100 + 'vh';
+        confetti.style.backgroundColor = ['#fce18a', '#ff726d', '#b48adf', '#ffffff', '#5abeff'][Math.floor(Math.random() * 5)];
+        const size = Math.random() * 8 + 6;
+        confetti.style.width = size + 'px';
+        confetti.style.height = size + 'px';
+        confetti.style.animationDelay = Math.random() * 3 + 's';
+        confettiContainer.appendChild(confetti);
+
+        setTimeout(() => {
+            confetti.remove();
+        }, 5000);
+    }
+
+    function createConfettiBurst() {
+        for (let i = 0; i < 100; i++) {
+            setTimeout(createConfetti, Math.random() * 500);
         }
+    }
 
-        setInterval(createBalloon, 300);
-    </script>
-</div>
+    // --- Âm nhạc và nút điều khiển ---
+    const musicButton = document.getElementById('music-button');
+    const audioElement = new Audio('birthday.mp3'); // Đảm bảo file 'birthday.mp3' nằm cùng thư mục hoặc cung cấp đường dẫn đúng
+    let isPlaying = false;
 
-<div class="heart" style="top: 20%; left: 10%;"></div>
-<div class="heart" style="top: 20%; right: 10%;"></div>
-<div class="heart" style="bottom: 20%; left: 10%;"></div>
-<div class="heart" style="bottom: 20%; right: 10%;"></div>
+    musicButton.addEventListener('click', function() {
+        if (audioElement.paused) {
+            audioElement.play();
+            isPlaying = true;
+            musicButton.textContent = 'Tắt nhạc & Pháo sáng!';
+            createFireworkBurst(); // Kích hoạt pháo hoa nổ
+            createConfettiBurst(); // Kích hoạt pháo giấy
+        } else {
+            audioElement.pause();
+            isPlaying = false;
+            musicButton.textContent = 'Bật nhạc & Pháo sáng!';
+        }
+    });
 
-<audio controls autoplay loop>
-    <source src="birthday.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio>
+    // Phát nhạc tự động nếu trình duyệt hỗ trợ (có thể bị chặn bởi chính sách của trình duyệt)
+    audioElement.autoplay = true;
+    audioElement.loop = true;
+
+    // Kiểm tra nếu autoplay bị chặn, hiển thị nút bật nhạc
+    if (audioElement.autoplay) {
+        audioElement.play().catch(error => {
+            console.log("Autoplay bị chặn:", error);
+            musicButton.style.display = 'block'; // Hiển thị nút nếu autoplay bị chặn
+        });
+    } else {
+        musicButton.style.display = 'block'; // Hiển thị nút nếu không autoplay
+    }
+
+</script>
 
 </body>
 </html>
