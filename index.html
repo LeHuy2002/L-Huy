@@ -17,6 +17,8 @@
             padding: 20px;
             box-sizing: border-box;
             position: relative; /* Để container pháo giấy có thể định vị tuyệt đối */
+            border: 5px solid transparent; /* Viền ban đầu trong suốt */
+            border-image-slice: 1; /* Để border-image phủ toàn bộ viền */
         }
 
         .birthday-container {
@@ -31,7 +33,8 @@
         }
 
         h1 {
-            font-size: clamp(2em, 6vw, 3.5em);
+            /* Giảm kích thước chữ chính */
+            font-size: clamp(1.5em, 5vw, 3em); /* Điều chỉnh các giá trị em, vw, và em */
             color: #e91e63;
             text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
             margin-bottom: 20px;
@@ -196,6 +199,24 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+
+        /* Стиль cho đèn nháy */
+        .music-light {
+            position: fixed;
+            top: 50px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #ccc;
+            opacity: 0.8;
+            z-index: -2; /* Đằng sau pháo hoa và bóng bay */
+            transition: background-color 0.1s ease-in-out; /* Thêm transition cho sự thay đổi màu mượt mà hơn */
+        }
+
+        .light-top-left { left: 50px; }
+        .light-top-right { right: 50px; }
+        .light-bottom-left { bottom: 50px; left: 50px; }
+        .light-bottom-right { bottom: 50px; right: 50px; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
@@ -226,6 +247,11 @@
 <div class="heart top-right"></div>
 <div class="heart bottom-left"></div>
 <div class="heart bottom-right"></div>
+
+<div id="light1" class="music-light light-top-left"></div>
+<div id="light2" class="music-light light-top-right"></div>
+<div id="light3" class="music-light light-bottom-left"></div>
+<div id="light4" class="music-light light-bottom-right"></div>
 
 
 <script>
@@ -306,25 +332,84 @@
     // --- Âm nhạc và nút điều khiển ---
     const musicButton = document.getElementById('music-button');
     const audioElement = new Audio('birthday.mp3');
+    const bodyElement = document.querySelector('body');
+    const lights = [
+        document.getElementById('light1'),
+        document.getElementById('light2'),
+        document.getElementById('light3'),
+        document.getElementById('light4')
+    ];
     let isPlaying = false;
     let fireworkInterval;
     let confettiInterval;
+    let audioContext;
+    let analyser;
+    let dataArray;
+    const beatThreshold = 20; // Ngưỡng phát hiện nhịp (có thể cần điều chỉnh)
+    const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#800080', '#008000']; // Mảng màu
+    let colorIndex = 0;
+
+    function initAudioAnalysis() {
+        if (!audioContext) {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const source = audioContext.createMediaElementSource(audioElement);
+            analyser = audioContext.createAnalyser();
+            source.connect(analyser);
+            analyser.connect(audioContext.destination);
+            analyser.fftSize = 64;
+            const bufferLength = analyser.frequencyBinCount;
+            dataArray = new Uint8Array(bufferLength);
+        }
+    }
+
+    function analyzeAudio() {
+        if (!isPlaying || !analyser) return;
+
+        analyser.getByteTimeDomainData(dataArray);
+        let sum = 0;
+        for (let i = 0; i < dataArray.length; i++) {
+            sum += Math.abs(dataArray[i] - 128);
+        }
+        const average = sum / dataArray.length;
+
+        if (average > beatThreshold) {
+            lights.forEach(light => {
+                light.style.backgroundColor = colors[colorIndex % colors.length];
+                colorIndex = (colorIndex + 1) % colors.length; // Chuyển sang màu tiếp theo cho mỗi đèn
+            });
+        }
+    }
 
     musicButton.addEventListener('click', function() {
         if (audioElement.paused) {
             audioElement.play();
             isPlaying = true;
             musicButton.textContent = 'Tắt nhạc & Pháo sáng!';
-            // Thiết lập interval để tạo hiệu ứng pháo sáng liên tục
-            fireworkInterval = setInterval(createFireworkBurst, 3000); // Nổ pháo hoa mỗi 3 giây
-            confettiInterval = setInterval(createConfettiBurst, 1500); // Nổ pháo giấy mỗi 1.5 giây
+            bodyElement.classList.add('music-playing');
+            initAudioAnalysis();
+            fireworkInterval = setInterval(createFireworkBurst, 3000);
+            confettiInterval = setInterval(createConfettiBurst, 1500);
+            requestAnimationFrame(function animate() {
+                analyzeAudio();
+                if (isPlaying) {
+                    requestAnimationFrame(animate);
+                } else {
+                    bodyElement.classList.remove('music-playing');
+                    bodyElement.style.borderImage = 'initial';
+                    lights.forEach(light => light.style.backgroundColor = '#ccc'); // Reset màu đèn
+                    colorIndex = 0; // Reset chỉ số màu
+                }
+            });
         } else {
             audioElement.pause();
             isPlaying = false;
             musicButton.textContent = 'Bật nhạc & Pháo sáng!';
-            // Xóa interval khi tắt nhạc
+            bodyElement.classList.remove('music-playing');
             clearInterval(fireworkInterval);
             clearInterval(confettiInterval);
+            bodyElement.style.borderImage = 'initial';
+            lights.forEach(light => light.style.backgroundColor = '#ccc'); // Reset màu đèn
+            colorIndex = 0; // Reset chỉ số màu
         }
     });
 
