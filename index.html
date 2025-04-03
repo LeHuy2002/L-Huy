@@ -247,10 +247,10 @@
     }
 
     function createFireworkBurst() {
-        for (let i = 0; i < 50; i++) { // Tạo nhiều pháo hoa hơn cho hiệu ứng nổ
+        for (let i = 0; i < 20; i++) { // Giảm số lượng pháo hoa trong mỗi lần nổ để tránh quá tải
             setTimeout(() => {
                 createFirework();
-            }, Math.random() * 1000); // Thời gian chờ ngắn hơn để tạo hiệu ứng đồng loạt
+            }, Math.random() * 500);
         }
     }
 
@@ -298,31 +298,37 @@
     }
 
     function createConfettiBurst() {
-        for (let i = 0; i < 100; i++) {
+        for (let i = 0; i < 50; i++) { // Giảm số lượng confetti mỗi lần nổ
             setTimeout(createConfetti, Math.random() * 500);
         }
     }
 
     // --- Âm nhạc và nút điều khiển ---
     const musicButton = document.getElementById('music-button');
-    const audioElement = new Audio('birthday.mp3'); // Đảm bảo file 'birthday.mp3' nằm cùng thư mục hoặc cung cấp đường dẫn đúng
+    const audioElement = new Audio('birthday.mp3');
     let isPlaying = false;
+    let fireworkInterval;
+    let confettiInterval;
 
     musicButton.addEventListener('click', function() {
         if (audioElement.paused) {
             audioElement.play();
             isPlaying = true;
             musicButton.textContent = 'Tắt nhạc & Pháo sáng!';
-            createFireworkBurst(); // Kích hoạt pháo hoa nổ
-            createConfettiBurst(); // Kích hoạt pháo giấy
+            // Thiết lập interval để tạo hiệu ứng pháo sáng liên tục
+            fireworkInterval = setInterval(createFireworkBurst, 3000); // Nổ pháo hoa mỗi 3 giây
+            confettiInterval = setInterval(createConfettiBurst, 1500); // Nổ pháo giấy mỗi 1.5 giây
         } else {
             audioElement.pause();
             isPlaying = false;
             musicButton.textContent = 'Bật nhạc & Pháo sáng!';
+            // Xóa interval khi tắt nhạc
+            clearInterval(fireworkInterval);
+            clearInterval(confettiInterval);
         }
     });
 
-    // Phát nhạc tự động nếu trình duyệt hỗ trợ (có thể bị chặn bởi chính sách của trình duyệt)
+    // Phát nhạc tự động nếu trình duyệt hỗ trợ
     audioElement.autoplay = true;
     audioElement.loop = true;
 
@@ -330,10 +336,10 @@
     if (audioElement.autoplay) {
         audioElement.play().catch(error => {
             console.log("Autoplay bị chặn:", error);
-            musicButton.style.display = 'block'; // Hiển thị nút nếu autoplay bị chặn
+            musicButton.style.display = 'block';
         });
     } else {
-        musicButton.style.display = 'block'; // Hiển thị nút nếu không autoplay
+        musicButton.style.display = 'block';
     }
 
 </script>
