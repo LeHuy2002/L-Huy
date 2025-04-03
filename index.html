@@ -384,7 +384,7 @@
         if (audioElement.paused) {
             audioElement.play();
             isPlaying = true;
-            musicButton.textContent = 'Tắt nhạc & Pháo sáng!';
+            musicButton.textContent = 'Bấm vào đây có sẽ có bất ngờ nè☺️!';
             bodyElement.classList.add('music-playing');
             initAudioAnalysis();
             fireworkInterval = setInterval(createFireworkBurst, 3000);
@@ -403,7 +403,7 @@
         } else {
             audioElement.pause();
             isPlaying = false;
-            musicButton.textContent = 'Bấm vào đây sẽ có bất ngờ!';
+            musicButton.textContent = 'Cái này anh làm trong 15 ngày á mong em sẽ vui khi thấy nó😂!';
             bodyElement.classList.remove('music-playing');
             clearInterval(fireworkInterval);
             clearInterval(confettiInterval);
