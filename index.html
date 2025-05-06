@@ -13,15 +13,51 @@
             min-height: 100vh;
             margin: 0;
             font-family: 'Pacifico', cursive;
-            overflow-x: hidden;
-            padding: 20px;
+            overflow: hidden; /* Ngăn cuộn khi có lớp phủ */
+            padding: 0; /* Loại bỏ padding mặc định */
             box-sizing: border-box;
-            position: relative; /* Để container pháo giấy có thể định vị tuyệt đối */
-            border: 5px solid transparent; /* Viền ban đầu trong suốt */
-            border-image-slice: 1; /* Để border-image phủ toàn bộ viền */
+            position: relative;
         }
 
-        .birthday-container {
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Màu nền tối hơn cho lớp phủ */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10; /* Đảm bảo lớp phủ ở trên cùng */
+        }
+
+        .surprise-button {
+            padding: 20px 40px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 10px;
+            background-color: #f44336;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: background-color 0.3s ease;
+        }
+
+        .surprise-button:hover {
+            background-color: #d32f2f;
+        }
+
+        .birthday-container, .fireworks-container, .balloons-container, .confetti-container, .heart, .music-light {
+            display: none; /* Ẩn tất cả các thành phần ban đầu */
+        }
+
+        .birthday-container.active, .fireworks-container.active, .balloons-container.active, .confetti-container.active, .heart.active, .music-light.active {
+            display: block; /* Hiển thị khi được kích hoạt */
+        }
+
+        /* Các style khác giữ nguyên */
+        .birthday-container.active {
             text-align: center;
             position: relative;
             background-color: rgba(255, 255, 255, 0.6);
@@ -29,36 +65,25 @@
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
             max-width: 90%;
-            z-index: 1; /* Đảm bảo nội dung hiển thị trên pháo giấy */
+            z-index: 1;
         }
 
-        h1 {
-            /* Giảm kích thước chữ chính */
-            font-size: clamp(1.5em, 5vw, 3em); /* Điều chỉnh các giá trị em, vw, và em */
+        h1.active {
+            font-size: clamp(1.5em, 5vw, 3em);
             color: #e91e63;
             text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
             margin-bottom: 20px;
             animation: fadeIn 2s ease-in-out;
         }
 
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(-50px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        .date {
+        .date.active {
             font-size: clamp(1.2em, 4vw, 1.8em);
             color: #9c27b0;
             margin-bottom: 30px;
             animation: slideIn 2s ease-in-out;
         }
 
-        @keyframes slideIn {
-            0% { opacity: 0; transform: translateX(-50px); }
-            100% { opacity: 1; transform: translateX(0); }
-        }
-
-        .message {
+        .message.active {
             font-size: clamp(1em, 3vw, 1.2em);
             color: #555;
             margin-top: 30px;
@@ -66,12 +91,7 @@
             line-height: 1.6;
         }
 
-        @keyframes fadeInUp {
-            0% { opacity: 0; transform: translateY(50px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        .fireworks-container, .balloons-container {
+        .fireworks-container.active, .balloons-container.active, .confetti-container.active {
             position: fixed;
             top: 0;
             left: 0;
@@ -81,38 +101,7 @@
             z-index: -1;
         }
 
-        .firework {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background-color: white;
-            border-radius: 50%;
-            animation: firework-explode 1.5s ease-out forwards;
-            opacity: 0;
-        }
-
-        @keyframes firework-explode {
-            0% { transform: scale(0.5); opacity: 0; }
-            20% { opacity: 1; }
-            100% { transform: scale(1.5) translate(0, -20px); opacity: 0; }
-        }
-
-        .balloon {
-            position: absolute;
-            width: 30px;
-            height: 40px;
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            opacity: 0.7;
-            animation: balloon-float 5s linear infinite;
-        }
-
-        @keyframes balloon-float {
-            0% { transform: translateY(100vh) rotate(0deg); }
-            50% { transform: rotate(10deg); }
-            100% { transform: translateY(-100px) rotate(-10deg); }
-        }
-
-        .heart {
+        .heart.active {
           position: fixed;
           width: 50px;
           height: 50px;
@@ -122,72 +111,53 @@
           opacity: 0.5;
           z-index: -1;
         }
-        .heart::before,
-        .heart::after {
-          content: "";
-          position: absolute;
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          background-color: red;
+
+        .music-light.active {
+            position: fixed;
+            top: 50px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #ccc;
+            opacity: 0.8;
+            z-index: -2;
+            transition: background-color 0.1s ease-in-out;
         }
-        .heart::before {
-          top: -25px;
-          left: 0;
+
+        /* Các keyframes giữ nguyên */
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-50px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
-        .heart::after {
-          top: 0;
-          left: 25px;
+
+        @keyframes slideIn {
+            0% { opacity: 0; transform: translateX(-50px); }
+            100% { opacity: 1; transform: translateX(0); }
         }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes firework-explode {
+            0% { transform: scale(0.5); opacity: 0; }
+            20% { opacity: 1; }
+            100% { transform: scale(1.5) translate(0, -20px); opacity: 0; }
+        }
+
+        @keyframes balloon-float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            50% { transform: rotate(10deg); }
+            100% { transform: translateY(-100px) rotate(-10deg); }
+        }
+
         @keyframes heartbeat {
             0% { transform: rotate(-45deg) scale(1); }
             25% { transform: rotate(-45deg) scale(1.1); }
             50% { transform: rotate(-45deg) scale(1); }
             75% { transform: rotate(-45deg) scale(1.1); }
             100% { transform: rotate(-45deg) scale(1); }
-        }
-
-        .heart.top-left { top: 15%; left: 10%; }
-        .heart.top-right { top: 15%; right: 10%; }
-        .heart.bottom-left { bottom: 15%; left: 10%; }
-        .heart.bottom-right { bottom: 15%; right: 10%; }
-
-        #music-button {
-            padding: 10px 20px;
-            font-size: 1em;
-            border: none;
-            border-radius: 5px;
-            background-color: #f44336;
-            color: white;
-            cursor: pointer;
-            margin-top: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: background-color 0.3s ease;
-        }
-
-        #music-button:hover {
-            background-color: #d32f2f;
-        }
-
-        .confetti-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .confetti {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #fce18a;
-            border-radius: 5px;
-            opacity: 0;
-            animation: confetti-fall 5s ease-out forwards, confetti-rotate 3s ease-in-out infinite;
-            transform-origin: center center;
         }
 
         @keyframes confetti-fall {
@@ -200,27 +170,14 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Стиль cho đèn nháy */
-        .music-light {
-            position: fixed;
-            top: 50px;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background-color: #ccc;
-            opacity: 0.8;
-            z-index: -2; /* Đằng sau pháo hoa và bóng bay */
-            transition: background-color 0.1s ease-in-out; /* Thêm transition cho sự thay đổi màu mượt mà hơn */
-        }
-
-        .light-top-left { left: 50px; }
-        .light-top-right { right: 50px; }
-        .light-bottom-left { bottom: 50px; left: 50px; }
-        .light-bottom-right { bottom: 50px; right: 50px; }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
 </head>
 <body>
+
+<div class="overlay">
+    <button id="surprise-button" class="surprise-button">Nhấn vào đây sẽ có bất ngờ! 😊</button>
+</div>
 
 <div class="birthday-container">
     <h1>Chúc mừng sinh nhật bé Thùy Dương!</h1>
@@ -234,9 +191,6 @@
         Chúc em mãi mãi là nàng công chúa bé nhỏ của người mà em thương.<br>
         Gửi đến em những lời chúc tốt đẹp nhất từ trái tim!
     </p>
-
-    <button id="music-button">Bật nhạc & Pháo sáng!</button>
-
 </div>
 
 <div class="fireworks-container"></div>
@@ -253,104 +207,28 @@
 <div id="light3" class="music-light light-bottom-left"></div>
 <div id="light4" class="music-light light-bottom-right"></div>
 
+<audio id="birthday-music" src="birthday.mp3" loop></audio>
 
 <script>
-    // --- Pháo hoa ---
+    const surpriseButton = document.getElementById('surprise-button');
+    const birthdayContainer = document.querySelector('.birthday-container');
     const fireworksContainer = document.querySelector('.fireworks-container');
-    function createFirework() {
-        if (!fireworksContainer) return;
-        const firework = document.createElement('div');
-        firework.classList.add('firework');
-        firework.style.left = Math.random() * 100 + 'vw';
-        firework.style.top = Math.random() * 70 + 'vh';
-        firework.style.backgroundColor = ['#ffc107', '#e91e63', '#9c27b0', '#ffffff'][Math.floor(Math.random() * 4)];
-        firework.style.animationDelay = Math.random() * 0.5 + 's';
-        fireworksContainer.appendChild(firework);
-
-        setTimeout(() => {
-            firework.remove();
-        }, 1500 + Math.random() * 500);
-    }
-
-    function createFireworkBurst() {
-        for (let i = 0; i < 20; i++) { // Giảm số lượng pháo hoa trong mỗi lần nổ để tránh quá tải
-            setTimeout(() => {
-                createFirework();
-            }, Math.random() * 500);
-        }
-    }
-
-    // Tạo pháo hoa ban đầu và sau đó theo khoảng thời gian (khi trang tải)
-    for(let i=0; i<5; i++) { setTimeout(createFirework, Math.random() * 1000); }
-    setInterval(createFirework, 1000); // Giảm tần suất pháo hoa liên tục
-
-    // --- Bóng bay ---
     const balloonsContainer = document.querySelector('.balloons-container');
-    function createBalloon() {
-        if (!balloonsContainer) return;
-        const balloon = document.createElement('div');
-        balloon.classList.add('balloon');
-        balloon.style.left = Math.random() * 95 + 'vw';
-        balloon.style.backgroundColor = ['#ffc107', '#e91e63', '#9c27b0', '#8bc34a', '#03a9f4'][Math.floor(Math.random() * 5)];
-        balloon.style.animationDuration = Math.random() * 3 + 5 + 's';
-        balloonsContainer.appendChild(balloon);
-
-        setTimeout(() => {
-            balloon.remove();
-        }, 8000);
-    }
-     // Tạo bóng bay ban đầu và sau đó theo khoảng thời gian
-    for(let i=0; i<5; i++) { setTimeout(createBalloon, Math.random() * 1000); }
-    setInterval(createBalloon, 1000);
-
-    // --- Pháo giấy (Confetti) ---
     const confettiContainer = document.querySelector('.confetti-container');
-    function createConfetti() {
-        if (!confettiContainer) return;
-        const confetti = document.createElement('div');
-        confetti.classList.add('confetti');
-        confetti.style.left = Math.random() * 100 + 'vw';
-        confetti.style.top = Math.random() * 100 + 'vh';
-        confetti.style.backgroundColor = ['#fce18a', '#ff726d', '#b48adf', '#ffffff', '#5abeff'][Math.floor(Math.random() * 5)];
-        const size = Math.random() * 8 + 6;
-        confetti.style.width = size + 'px';
-        confetti.style.height = size + 'px';
-        confetti.style.animationDelay = Math.random() * 3 + 's';
-        confettiContainer.appendChild(confetti);
-
-        setTimeout(() => {
-            confetti.remove();
-        }, 5000);
-    }
-
-    function createConfettiBurst() {
-        for (let i = 0; i < 50; i++) { // Giảm số lượng confetti mỗi lần nổ
-            setTimeout(createConfetti, Math.random() * 500);
-        }
-    }
-
-    // --- Âm nhạc và nút điều khiển ---
-    const musicButton = document.getElementById('music-button');
-    const audioElement = new Audio('birthday.mp3');
+    const hearts = document.querySelectorAll('.heart');
+    const lights = document.querySelectorAll('.music-light');
+    const audioElement = document.getElementById('birthday-music');
     const bodyElement = document.querySelector('body');
-    const lights = [
-        document.getElementById('light1'),
-        document.getElementById('light2'),
-        document.getElementById('light3'),
-        document.getElementById('light4')
-    ];
-    let isPlaying = false;
+
     let fireworkInterval;
     let confettiInterval;
+    let isPlaying = false;
     let audioContext;
     let analyser;
     let dataArray;
-    const beatThreshold = 20; // Ngưỡng phát hiện nhịp (có thể cần điều chỉnh)
-    const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#800080', '#008000']; // Mảng màu
+    const beatThreshold = 20;
+    const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#800080', '#008000'];
     let colorIndex = 0;
-
-    // Đặt text ban đầu cho nút
-    musicButton.textContent = 'Nhấn vào sẽ có bất ngờ☺️';
 
     function initAudioAnalysis() {
         if (!audioContext) {
@@ -377,57 +255,126 @@
 
         if (average > beatThreshold) {
             lights.forEach(light => {
+                light.classList.add('active');
                 light.style.backgroundColor = colors[colorIndex % colors.length];
-                colorIndex = (colorIndex + 1) % colors.length; // Chuyển sang màu tiếp theo cho mỗi đèn
+                colorIndex = (colorIndex + 1) % colors.length;
+            });
+        } else {
+            lights.forEach(light => {
+                light.style.backgroundColor = '#ccc';
+                light.classList.remove('active');
             });
         }
     }
 
-    musicButton.addEventListener('click', function() {
-        if (audioElement.paused) {
-            audioElement.play();
-            isPlaying = true;
-            musicButton.textContent = 'Cái này anh tự tay làm á mong em sẽ vui khi nhận được😊☺️';
-            bodyElement.classList.add('music-playing');
-            initAudioAnalysis();
-            fireworkInterval = setInterval(createFireworkBurst, 3000);
-            confettiInterval = setInterval(createConfettiBurst, 1500);
-            requestAnimationFrame(function animate() {
-                analyzeAudio();
-                if (isPlaying) {
-                    requestAnimationFrame(animate);
-                } else {
-                    bodyElement.classList.remove('music-playing');
-                    bodyElement.style.borderImage = 'initial';
-                    lights.forEach(light => light.style.backgroundColor = '#ccc'); // Reset màu đèn
-                    colorIndex = 0; // Reset chỉ số màu
-                }
-            });
-        } else {
-            audioElement.pause();
-            isPlaying = false;
-            musicButton.textContent = 'Nhấn vào sẽ có bất ngờ☺️';
-            bodyElement.classList.remove('music-playing');
-            clearInterval(fireworkInterval);
-            clearInterval(confettiInterval);
-            bodyElement.style.borderImage = 'initial';
-            lights.forEach(light => light.style.backgroundColor = '#ccc'); // Reset màu đèn
-            colorIndex = 0; // Reset chỉ số màu
-        }
-    });
+    function startEffects() {
+        birthdayContainer.classList.add('active');
+        fireworksContainer.classList.add('active');
+        balloonsContainer.classList.add('active');
+        confettiContainer.classList.add('active');
+        hearts.forEach(heart => heart.classList.add('active'));
 
-    // Phát nhạc tự động nếu trình duyệt hỗ trợ
-    audioElement.autoplay = true;
-    audioElement.loop = true;
+        // Tạo pháo hoa ban đầu và sau đó theo khoảng thời gian
+        for(let i=0; i<5; i++) { setTimeout(createFirework, Math.random() * 1000); }
+        fireworkInterval = setInterval(createFireworkBurst, 3000);
 
-    // Kiểm tra nếu autoplay bị chặn, hiển thị nút bật nhạc
-    if (audioElement.autoplay) {
-        audioElement.play().catch(error => {
-            console.log("Autoplay bị chặn:", error);
-            musicButton.style.display = 'block';
+        // Tạo bóng bay ban đầu và sau đó theo khoảng thời gian
+        for(let i=0; i<5; i++) { setTimeout(createBalloon, Math.random() * 1000); }
+        setInterval(createBalloon, 1000);
+
+        // Tạo pháo giấy liên tục
+        confettiInterval = setInterval(createConfettiBurst, 1500);
+
+        // Bật nhạc và bắt đầu phân tích âm thanh
+        audioElement.play();
+        isPlaying = true;
+        initAudioAnalysis();
+        requestAnimationFrame(function animate() {
+            analyzeAudio();
+            if (isPlaying) {
+                requestAnimationFrame(animate);
+            } else {
+                lights.forEach(light => {
+                    light.style.backgroundColor = '#ccc';
+                    light.classList.remove('active');
+                });
+                bodyElement.classList.remove('music-playing');
+                bodyElement.style.borderImage = 'initial';
+                colorIndex = 0;
+            }
         });
-    } else {
-        musicButton.style.display = 'block';
+
+        // Ẩn nút bất ngờ sau khi nhấn
+        const overlay = document.querySelector('.overlay');
+        overlay.style.display = 'none';
+        bodyElement.style.overflow = 'auto'; // Cho phép cuộn lại
+    }
+
+    surpriseButton.addEventListener('click', startEffects);
+
+    // --- Các hàm tạo hiệu ứng ---
+    const fireworksContainer = document.querySelector('.fireworks-container');
+    function createFirework() {
+        if (!fireworksContainer) return;
+        const firework = document.createElement('div');
+        firework.classList.add('firework');
+        firework.style.left = Math.random() * 100 + 'vw';
+        firework.style.top = Math.random() * 70 + 'vh';
+        firework.style.backgroundColor = ['#ffc107', '#e91e63', '#9c27b0', '#ffffff'][Math.floor(Math.random() * 4)];
+        firework.style.animationDelay = Math.random() * 0.5 + 's';
+        fireworksContainer.appendChild(firework);
+
+        setTimeout(() => {
+            firework.remove();
+        }, 1500 + Math.random() * 500);
+    }
+
+    function createFireworkBurst() {
+        for (let i = 0; i < 20; i++) {
+            setTimeout(() => {
+                createFirework();
+            }, Math.random() * 500);
+        }
+    }
+
+    const balloonsContainer = document.querySelector('.balloons-container');
+    function createBalloon() {
+        if (!balloonsContainer) return;
+        const balloon = document.createElement('div');
+        balloon.classList.add('balloon');
+        balloon.style.left = Math.random() * 95 + 'vw';
+        balloon.style.backgroundColor = ['#ffc107', '#e91e63', '#9c27b0', '#8bc34a', '#03a9f4'][Math.floor(Math.random() * 5)];
+        balloon.style.animationDuration = Math.random() * 3 + 5 + 's';
+        balloonsContainer.appendChild(balloon);
+
+        setTimeout(() => {
+            balloon.remove();
+        }, 8000);
+    }
+
+    const confettiContainer = document.querySelector('.confetti-container');
+    function createConfetti() {
+        if (!confettiContainer) return;
+        const confetti = document.createElement('div');
+        confetti.classList.add('confetti');
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.top = Math.random() * 100 + 'vh';
+        confetti.style.backgroundColor = ['#fce18a', '#ff726d', '#b48adf', '#ffffff', '#5abeff'][Math.floor(Math.random() * 5)];
+        const size = Math.random() * 8 + 6;
+        confetti.style.width = size + 'px';
+        confetti.style.height = size + 'px';
+        confetti.style.animationDelay = Math.random() * 3 + 's';
+        confettiContainer.appendChild(confetti);
+
+        setTimeout(() => {
+            confetti.remove();
+        }, 5000);
+    }
+
+    function createConfettiBurst() {
+        for (let i = 0; i < 50; i++) {
+            setTimeout(createConfetti, Math.random() * 500);
+        }
     }
 
 </script>
