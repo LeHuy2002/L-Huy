@@ -271,7 +271,7 @@
 <div id="light3" class="music-light light-bottom-left"></div>
 <div id="light4" class="music-light light-bottom-right"></div>
 
-<audio id="birthday-music" src="birthday.mp3"></audio>
+<audio id="birthday-music" src="birthday.mp3" preload="auto"></audio>
 
 <script>
     const surpriseButton = document.getElementById('surprise-button');
@@ -334,6 +334,9 @@
     }
 
     function startEffects() {
+        // Ẩn lớp phủ
+        overlay.style.display = 'none';
+
         // Hiển thị tin nhắn
         messageElement.classList.add('visible');
 
@@ -367,8 +370,7 @@
             }
         });
 
-        // Ẩn lớp phủ và cho phép cuộn
-        overlay.style.display = 'none';
+        // Cho phép cuộn trang sau khi lớp phủ biến mất
         bodyElement.style.overflow = 'auto';
     }
 
@@ -387,4 +389,16 @@
         fireworksContainer.appendChild(firework);
 
         setTimeout(() => {
-            firework.remove
+            firework.remove();
+        }, 1500 + Math.random() * 500);
+    }
+
+    function createFireworkBurst() {
+        for (let i = 0; i < 20; i++) {
+            setTimeout(() => {
+                createFirework();
+            }, Math.random() * 500);
+        }
+    }
+
+    const balloonsContainer = document
