@@ -124,6 +124,24 @@
             transition: background-color 0.1s ease-in-out;
         }
 
+        .reset-button {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: background-color 0.3s ease;
+            margin-top: 20px;
+            display: none; /* Ẩn nút "tạo lại" ban đầu */
+        }
+
+        .reset-button:hover {
+            background-color: #0056b3;
+        }
+
         /* Các keyframes giữ nguyên */
         @keyframes fadeIn {
             0% { opacity: 0; transform: translateY(-50px); }
@@ -191,6 +209,7 @@
         Chúc em mãi mãi là nàng công chúa bé nhỏ của người mà em thương.<br>
         Gửi đến em những lời chúc tốt đẹp nhất từ trái tim!
     </p>
+    <button id="reset-button" class="reset-button">Tạo lại!</button>
 </div>
 
 <div class="fireworks-container"></div>
@@ -211,6 +230,7 @@
 
 <script>
     const surpriseButton = document.getElementById('surprise-button');
+    const resetButton = document.getElementById('reset-button');
     const birthdayContainer = document.querySelector('.birthday-container');
     const fireworksContainer = document.querySelector('.fireworks-container');
     const balloonsContainer = document.querySelector('.balloons-container');
@@ -219,6 +239,9 @@
     const lights = document.querySelectorAll('.music-light');
     const audioElement = document.getElementById('birthday-music');
     const bodyElement = document.querySelector('body');
+    const overlay = document.querySelector('.overlay');
+
+    console.log("Nút 'surpriseButton' có tồn tại không?", surpriseButton); // Kiểm tra nút
 
     let fireworkInterval;
     let confettiInterval;
@@ -261,123 +284,21 @@
             });
         } else {
             lights.forEach(light => {
-                light.style.backgroundColor = '#ccc';
                 light.classList.remove('active');
+                light.style.backgroundColor = '#ccc';
             });
         }
     }
 
     function startEffects() {
+        console.log("Hàm startEffects đã được gọi!"); // Kiểm tra hàm có được gọi không
         birthdayContainer.classList.add('active');
         fireworksContainer.classList.add('active');
         balloonsContainer.classList.add('active');
         confettiContainer.classList.add('active');
         hearts.forEach(heart => heart.classList.add('active'));
+        lights.forEach(light => light.classList.add('active'));
 
         // Tạo pháo hoa ban đầu và sau đó theo khoảng thời gian
         for(let i=0; i<5; i++) { setTimeout(createFirework, Math.random() * 1000); }
-        fireworkInterval = setInterval(createFireworkBurst, 3000);
-
-        // Tạo bóng bay ban đầu và sau đó theo khoảng thời gian
-        for(let i=0; i<5; i++) { setTimeout(createBalloon, Math.random() * 1000); }
-        setInterval(createBalloon, 1000);
-
-        // Tạo pháo giấy liên tục
-        confettiInterval = setInterval(createConfettiBurst, 1500);
-
-        // Bật nhạc và bắt đầu phân tích âm thanh
-        audioElement.play();
-        isPlaying = true;
-        initAudioAnalysis();
-        requestAnimationFrame(function animate() {
-            analyzeAudio();
-            if (isPlaying) {
-                requestAnimationFrame(animate);
-            } else {
-                lights.forEach(light => {
-                    light.style.backgroundColor = '#ccc';
-                    light.classList.remove('active');
-                });
-                bodyElement.classList.remove('music-playing');
-                bodyElement.style.borderImage = 'initial';
-                colorIndex = 0;
-            }
-        });
-
-        // Ẩn nút bất ngờ sau khi nhấn
-        const overlay = document.querySelector('.overlay');
-        overlay.style.display = 'none';
-        bodyElement.style.overflow = 'auto'; // Cho phép cuộn lại
-    }
-
-    surpriseButton.addEventListener('click', startEffects);
-
-    // --- Các hàm tạo hiệu ứng ---
-    const fireworksContainer = document.querySelector('.fireworks-container');
-    function createFirework() {
-        if (!fireworksContainer) return;
-        const firework = document.createElement('div');
-        firework.classList.add('firework');
-        firework.style.left = Math.random() * 100 + 'vw';
-        firework.style.top = Math.random() * 70 + 'vh';
-        firework.style.backgroundColor = ['#ffc107', '#e91e63', '#9c27b0', '#ffffff'][Math.floor(Math.random() * 4)];
-        firework.style.animationDelay = Math.random() * 0.5 + 's';
-        fireworksContainer.appendChild(firework);
-
-        setTimeout(() => {
-            firework.remove();
-        }, 1500 + Math.random() * 500);
-    }
-
-    function createFireworkBurst() {
-        for (let i = 0; i < 20; i++) {
-            setTimeout(() => {
-                createFirework();
-            }, Math.random() * 500);
-        }
-    }
-
-    const balloonsContainer = document.querySelector('.balloons-container');
-    function createBalloon() {
-        if (!balloonsContainer) return;
-        const balloon = document.createElement('div');
-        balloon.classList.add('balloon');
-        balloon.style.left = Math.random() * 95 + 'vw';
-        balloon.style.backgroundColor = ['#ffc107', '#e91e63', '#9c27b0', '#8bc34a', '#03a9f4'][Math.floor(Math.random() * 5)];
-        balloon.style.animationDuration = Math.random() * 3 + 5 + 's';
-        balloonsContainer.appendChild(balloon);
-
-        setTimeout(() => {
-            balloon.remove();
-        }, 8000);
-    }
-
-    const confettiContainer = document.querySelector('.confetti-container');
-    function createConfetti() {
-        if (!confettiContainer) return;
-        const confetti = document.createElement('div');
-        confetti.classList.add('confetti');
-        confetti.style.left = Math.random() * 100 + 'vw';
-        confetti.style.top = Math.random() * 100 + 'vh';
-        confetti.style.backgroundColor = ['#fce18a', '#ff726d', '#b48adf', '#ffffff', '#5abeff'][Math.floor(Math.random() * 5)];
-        const size = Math.random() * 8 + 6;
-        confetti.style.width = size + 'px';
-        confetti.style.height = size + 'px';
-        confetti.style.animationDelay = Math.random() * 3 + 's';
-        confettiContainer.appendChild(confetti);
-
-        setTimeout(() => {
-            confetti.remove();
-        }, 5000);
-    }
-
-    function createConfettiBurst() {
-        for (let i = 0; i < 50; i++) {
-            setTimeout(createConfetti, Math.random() * 500);
-        }
-    }
-
-</script>
-
-</body>
-</html>
+        fireworkInterval = setInterval
