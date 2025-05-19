@@ -1,436 +1,510 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Chúc mừng sinh nhật bé Thùy Dương!</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <title>Chúc Mừng Sinh Nhật Thuỳ Dương</title>
+        <style>
+          body {
+            background-color: pink;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            font-family: 'Pacifico', cursive;
-            overflow-x: hidden;
-            padding: 20px;
-            box-sizing: border-box;
-            position: relative; /* Để container pháo giấy có thể định vị tuyệt đối */
-            border: 5px solid transparent; /* Viền ban đầu trong suốt */
-            border-image-slice: 1; /* Để border-image phủ toàn bộ viền */
-        }
-
-        .birthday-container {
             text-align: center;
+            overflow: hidden;
             position: relative;
-            background-color: rgba(255, 255, 255, 0.6);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            max-width: 90%;
-            z-index: 1; /* Đảm bảo nội dung hiển thị trên pháo giấy */
-        }
+          }
 
-        h1 {
-            /* Giảm kích thước chữ chính */
-            font-size: clamp(1.5em, 5vw, 3em); /* Điều chỉnh các giá trị em, vw, và em */
-            color: #e91e63;
-            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
-            margin-bottom: 20px;
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(-50px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        .date {
-            font-size: clamp(1.2em, 4vw, 1.8em);
-            color: #9c27b0;
-            margin-bottom: 30px;
-            animation: slideIn 2s ease-in-out;
-        }
-
-        @keyframes slideIn {
-            0% { opacity: 0; transform: translateX(-50px); }
-            100% { opacity: 1; transform: translateX(0); }
-        }
-
-        .message {
-            font-size: clamp(1em, 3vw, 1.2em);
-            color: #555;
-            margin-top: 30px;
-            animation: fadeInUp 2s ease-in-out;
-            line-height: 1.6;
-        }
-
-        @keyframes fadeInUp {
-            0% { opacity: 0; transform: translateY(50px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        .fireworks-container, .balloons-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .firework {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background-color: white;
-            border-radius: 50%;
-            animation: firework-explode 1.5s ease-out forwards;
-            opacity: 0;
-        }
-
-        @keyframes firework-explode {
-            0% { transform: scale(0.5); opacity: 0; }
-            20% { opacity: 1; }
-            100% { transform: scale(1.5) translate(0, -20px); opacity: 0; }
-        }
-
-        .balloon {
-            position: absolute;
-            width: 30px;
-            height: 40px;
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            opacity: 0.7;
-            animation: balloon-float 5s linear infinite;
-        }
-
-        @keyframes balloon-float {
-            0% { transform: translateY(100vh) rotate(0deg); }
-            50% { transform: rotate(10deg); }
-            100% { transform: translateY(-100px) rotate(-10deg); }
-        }
-
-        .heart {
-          position: fixed;
-          width: 50px;
-          height: 50px;
-          background-color: red;
-          transform: rotate(-45deg);
-          animation: heartbeat 1.5s ease infinite;
-          opacity: 0.5;
-          z-index: -1;
-        }
-        .heart::before,
-        .heart::after {
-          content: "";
-          position: absolute;
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          background-color: red;
-        }
-        .heart::before {
-          top: -25px;
-          left: 0;
-        }
-        .heart::after {
-          top: 0;
-          left: 25px;
-        }
-        @keyframes heartbeat {
-            0% { transform: rotate(-45deg) scale(1); }
-            25% { transform: rotate(-45deg) scale(1.1); }
-            50% { transform: rotate(-45deg) scale(1); }
-            75% { transform: rotate(-45deg) scale(1.1); }
-            100% { transform: rotate(-45deg) scale(1); }
-        }
-
-        .heart.top-left { top: 15%; left: 10%; }
-        .heart.top-right { top: 15%; right: 10%; }
-        .heart.bottom-left { bottom: 15%; left: 10%; }
-        .heart.bottom-right { bottom: 15%; right: 10%; }
-
-        #music-button {
-            padding: 10px 20px;
-            font-size: 1em;
-            border: none;
-            border-radius: 5px;
-            background-color: #f44336;
-            color: white;
+          button {
+            padding: 15px 30px;
+            font-size: 20px;
             cursor: pointer;
+            border: none;
+            border-radius: 10px;
+            background-color: white;
+            color: black;
+            font-weight: bold;
+            background-image: linear-gradient(45deg, #FFDA63, #FF914D, #FF6363, #9400D3, #4B0082, #008080, #00BFFF, #8FBC8F);
+            background-size: 400% 400%;
+            animation: rainbow 5s infinite alternate;
+            color: white;
+            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+          }
+
+          button::before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: calc(100% + 40px);
+            height: calc(100% + 40px);
+            background-image: url('duong_dan_den_hinh_anh_hoa_la.png'); /* Thay thế bằng đường dẫn thực tế */
+            background-size: cover;
+            opacity: 0.3;
+            z-index: -1;
+          }
+
+          @keyframes rainbow {
+            0% {
+              background-position: 0% 50%;
+            }
+            100% {
+              background-position: 100% 50%;
+            }
+          }
+
+          #trang2 {
+            display: none;
             margin-top: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: background-color 0.3s ease;
-        }
+            z-index: 10;
+            position: relative;
+          }
 
-        #music-button:hover {
-            background-color: #d32f2f;
-        }
+          #tieuDeSinhNhat {
+            font-size: 48px; /* To hơn */
+            color: purple;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5); /* Nổi bật hơn */
+          }
 
-        .confetti-container {
-            position: fixed;
+          #ngaySinh {
+            font-size: 30px; /* To hơn */
+            color: blue;
+            font-style: italic;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3); /* Nổi bật hơn */
+          }
+
+          #loiKhen {
+            font-size: 24px; /* To hơn */
+            color: #FF69B4;
+            font-weight: bold;
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3); /* Nổi bật hơn */
+          }
+
+          .loiChucSinhNhat {
+            font-size: 20px; /* To hơn */
+            color: black;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Nổi bật hơn */
+          }
+
+          #audioNen {
+            display: none;
+          }
+
+          #fireworks-canvas {
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: -1;
-        }
+            z-index: 5;
+          }
 
-        .confetti {
+          #balloons-canvas {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #fce18a;
-            border-radius: 5px;
-            opacity: 0;
-            animation: confetti-fall 5s ease-out forwards, confetti-rotate 3s ease-in-out infinite;
-            transform-origin: center center;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 4; /* Đảm bảo bong bóng ở dưới pháo hoa */
+          }
+        </style>
+        </head>
+        <body>
+
+        <button id="nutBatNgo" onclick="hienThiTrang2()">Nhấn và sẽ có bất ngờ!</button>
+
+        <div id="trang2">
+          <h1 id="tieuDeSinhNhat">Chúc Mừng Sinh Nhật Thuỳ Dương</h1>
+          <p id="ngaySinh">Ngày 20 Tháng 6</p>
+          <p id="loiKhen">Ngày mà một thiên thần dễ thương xinh đẹp được sinh ra</p>
+          <p class="loiChucSinhNhat">Chúc em sinh nhật vui vẻ</p>
+          <p class="loiChucSinhNhat">Mong rằng tuổi mới sẽ mang đến cho em thật nhiều niềm vui và những điều bất ngờ thú vị.</p>
+          <p class="loiChucSinhNhat">Chúc em luôn xinh đẹp, rạng rỡ như những đóa hoa và ngọt ngào như những viên kẹo.</p>
+          <p class="loiChucSinhNhat">Chúc em tương lai sẽ có người luôn yêu thương em, chiều chuộng em hết mực.</p>
+          <p class="loiChucSinhNhat">Chúc em mãi mãi là nàng công chúa bé nhỏ của người mà em thương.</p>
+          <p class="loiChucSinhNhat">Gửi đến em những lời chúc tốt đẹp nhất từ trái tim!</p>
+        </div>
+
+        <audio id="audioNen" src="birthday.mp3"></audio>
+
+        <canvas id="fireworks-canvas"></canvas>
+        <canvas id="balloons-canvas"></canvas>
+
+        <script>
+        function hienThiTrang2() {
+          var nutBatNgo = document.getElementById("nutBatNgo");
+          var trang2 = document.getElementById("trang2");
+          var amThanh = document.getElementById("audioNen");
+          var fireworksCanvas = document.getElementById("fireworks-canvas");
+          var fireworksCtx = fireworksCanvas.getContext('2d');
+          fireworksCanvas.width = window.innerWidth;
+          fireworksCanvas.height = window.innerHeight;
+
+          var balloonsCanvas = document.getElementById("balloons-canvas");
+          var balloonsCtx = balloonsCanvas.getContext('2d');
+          balloonsCanvas.width = window.innerWidth;
+          balloonsCanvas.height = window.innerHeight;
+
+          nutBatNgo.style.display = "none";
+          trang2.style.display = "block";
+          amThanh.play();
+
+          launchFireworks();
+          launchBalloons();
         }
 
-        @keyframes confetti-fall {
-            0% { transform: translate(-50%, -50%) translateY(-100%); opacity: 1; }
-            100% { transform: translate(-50%, -50%) translateY(110%); opacity: 0.7; }
-        }
-
-        @keyframes confetti-rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Стиль cho đèn nháy */
-        .music-light {
-            position: fixed;
-            top: 50px;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background-color: #ccc;
-            opacity: 0.8;
-            z-index: -2; /* Đằng sau pháo hoa và bóng bay */
-            transition: background-color 0.1s ease-in-out; /* Thêm transition cho sự thay đổi màu mượt mà hơn */
-        }
-
-        .light-top-left { left: 50px; }
-        .light-top-right { right: 50px; }
-        .light-bottom-left { bottom: 50px; left: 50px; }
-        .light-bottom-right { bottom: 50px; right: 50px; }
-    </style>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-</head>
-<body>
-
-<div class="birthday-container">
-    <h1>Chúc mừng sinh nhật bé Thùy Dương!</h1>
-    <p class="date">Ngày 20 tháng 6
-    <br> Ngày mà một thiên thần nhỏ được sinh ra!</p>
-    <p class="message">
-        Chúc em sinh nhật vui vẻ !<br>
-        Mong rằng tuổi mới sẽ mang đến cho em thật nhiều niềm vui và những điều bất ngờ thú vị.<br>
-        Chúc em luôn xinh đẹp, rạng rỡ như những đóa hoa và ngọt ngào như những viên kẹo.<br>
-        Chúc em tương lai sẽ có người luôn yêu thương em, chiều chuộng em hết mực.<br>
-        Chúc em mãi mãi là nàng công chúa bé nhỏ của người mà em thương.<br>
-        Gửi đến em những lời chúc tốt đẹp nhất từ trái tim!
-    </p>
-
-    <button id="music-button">Bật nhạc & Pháo sáng!</button>
-
-</div>
-
-<div class="fireworks-container"></div>
-<div class="balloons-container"></div>
-<div class="confetti-container"></div>
-
-<div class="heart top-left"></div>
-<div class="heart top-right"></div>
-<div class="heart bottom-left"></div>
-<div class="heart bottom-right"></div>
-
-<div id="light1" class="music-light light-top-left"></div>
-<div id="light2" class="music-light light-top-right"></div>
-<div id="light3" class="music-light light-bottom-left"></div>
-<div id="light4" class="music-light light-bottom-right"></div>
-
-
-<script>
-    // --- Pháo hoa ---
-    const fireworksContainer = document.querySelector('.fireworks-container');
-    function createFirework() {
-        if (!fireworksContainer) return;
-        const firework = document.createElement('div');
-        firework.classList.add('firework');
-        firework.style.left = Math.random() * 100 + 'vw';
-        firework.style.top = Math.random() * 70 + 'vh';
-        firework.style.backgroundColor = ['#ffc107', '#e91e63', '#9c27b0', '#ffffff'][Math.floor(Math.random() * 4)];
-        firework.style.animationDelay = Math.random() * 0.5 + 's';
-        fireworksContainer.appendChild(firework);
-
-        setTimeout(() => {
-            firework.remove();
-        }, 1500 + Math.random() * 500);
-    }
-
-    function createFireworkBurst() {
-        for (let i = 0; i < 20; i++) { // Giảm số lượng pháo hoa trong mỗi lần nổ để tránh quá tải
-            setTimeout(() => {
-                createFirework();
-            }, Math.random() * 500);
-        }
-    }
-
-    // Tạo pháo hoa ban đầu và sau đó theo khoảng thời gian (khi trang tải)
-    for(let i=0; i<5; i++) { setTimeout(createFirework, Math.random() * 1000); }
-    setInterval(createFirework, 1000); // Giảm tần suất pháo hoa liên tục
-
-    // --- Bóng bay ---
-    const balloonsContainer = document.querySelector('.balloons-container');
-    function createBalloon() {
-        if (!balloonsContainer) return;
-        const balloon = document.createElement('div');
-        balloon.classList.add('balloon');
-        balloon.style.left = Math.random() * 95 + 'vw';
-        balloon.style.backgroundColor = ['#ffc107', '#e91e63', '#9c27b0', '#8bc34a', '#03a9f4'][Math.floor(Math.random() * 5)];
-        balloon.style.animationDuration = Math.random() * 3 + 5 + 's';
-        balloonsContainer.appendChild(balloon);
-
-        setTimeout(() => {
-            balloon.remove();
-        }, 8000);
-    }
-     // Tạo bóng bay ban đầu và sau đó theo khoảng thời gian
-    for(let i=0; i<5; i++) { setTimeout(createBalloon, Math.random() * 1000); }
-    setInterval(createBalloon, 1000);
-
-    // --- Pháo giấy (Confetti) ---
-    const confettiContainer = document.querySelector('.confetti-container');
-    function createConfetti() {
-        if (!confettiContainer) return;
-        const confetti = document.createElement('div');
-        confetti.classList.add('confetti');
-        confetti.style.left = Math.random() * 100 + 'vw';
-        confetti.style.top = Math.random() * 100 + 'vh';
-        confetti.style.backgroundColor = ['#fce18a', '#ff726d', '#b48adf', '#ffffff', '#5abeff'][Math.floor(Math.random() * 5)];
-        const size = Math.random() * 8 + 6;
-        confetti.style.width = size + 'px';
-        confetti.style.height = size + 'px';
-        confetti.style.animationDelay = Math.random() * 3 + 's';
-        confettiContainer.appendChild(confetti);
-
-        setTimeout(() => {
-            confetti.remove();
-        }, 5000);
-    }
-
-    function createConfettiBurst() {
-        for (let i = 0; i < 50; i++) { // Giảm số lượng confetti mỗi lần nổ
-            setTimeout(createConfetti, Math.random() * 500);
-        }
-    }
-
-    // --- Âm nhạc và nút điều khiển ---
-    const musicButton = document.getElementById('music-button');
-    const audioElement = new Audio('birthday.mp3');
-    const bodyElement = document.querySelector('body');
-    const lights = [
-        document.getElementById('light1'),
-        document.getElementById('light2'),
-        document.getElementById('light3'),
-        document.getElementById('light4')
-    ];
-    let isPlaying = false;
-    let fireworkInterval;
-    let confettiInterval;
-    let audioContext;
-    let analyser;
-    let dataArray;
-    const beatThreshold = 20; // Ngưỡng phát hiện nhịp (có thể cần điều chỉnh)
-    const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#800080', '#008000']; // Mảng màu
-    let colorIndex = 0;
-
-    // Đặt text ban đầu cho nút
-    musicButton.textContent = 'Nhấn vào sẽ có bất ngờ☺️';
-
-    function initAudioAnalysis() {
-        if (!audioContext) {
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const source = audioContext.createMediaElementSource(audioElement);
-            analyser = audioContext.createAnalyser();
-            source.connect(analyser);
-            analyser.connect(audioContext.destination);
-            analyser.fftSize = 64;
-            const bufferLength = analyser.frequencyBinCount;
-            dataArray = new Uint8Array(bufferLength);
-        }
-    }
-
-    function analyzeAudio() {
-        if (!isPlaying || !analyser) return;
-
-        analyser.getByteTimeDomainData(dataArray);
-        let sum = 0;
-        for (let i = 0; i < dataArray.length; i++) {
-            sum += Math.abs(dataArray[i] - 128);
-        }
-        const average = sum / dataArray.length;
-
-        if (average > beatThreshold) {
-            lights.forEach(light => {
-                light.style.backgroundColor = colors[colorIndex % colors.length];
-                colorIndex = (colorIndex + 1) % colors.length; // Chuyển sang màu tiếp theo cho mỗi đèn
-            });
-        }
-    }
-
-    musicButton.addEventListener('click', function() {
-        if (audioElement.paused) {
-            audioElement.play();
-            isPlaying = true;
-            musicButton.textContent = 'Cái này anh tự tay làm á mong em sẽ vui khi nhận được😊☺️';
-            bodyElement.classList.add('music-playing');
-            initAudioAnalysis();
-            fireworkInterval = setInterval(createFireworkBurst, 3000);
-            confettiInterval = setInterval(createConfettiBurst, 1500);
-            requestAnimationFrame(function animate() {
-                analyzeAudio();
-                if (isPlaying) {
-                    requestAnimationFrame(animate);
-                } else {
-                    bodyElement.classList.remove('music-playing');
-                    bodyElement.style.borderImage = 'initial';
-                    lights.forEach(light => light.style.backgroundColor = '#ccc'); // Reset màu đèn
-                    colorIndex = 0; // Reset chỉ số màu
-                }
-            });
-        } else {
-            audioElement.pause();
-            isPlaying = false;
-            musicButton.textContent = 'Nhấn vào sẽ có bất ngờ☺️';
-            bodyElement.classList.remove('music-playing');
-            clearInterval(fireworkInterval);
-            clearInterval(confettiInterval);
-            bodyElement.style.borderImage = 'initial';
-            lights.forEach(light => light.style.backgroundColor = '#ccc'); // Reset màu đèn
-            colorIndex = 0; // Reset chỉ số màu
-        }
-    });
-
-    // Phát nhạc tự động nếu trình duyệt hỗ trợ
-    audioElement.autoplay = true;
-    audioElement.loop = true;
-
-    // Kiểm tra nếu autoplay bị chặn, hiển thị nút bật nhạc
-    if (audioElement.autoplay) {
-        audioElement.play().catch(error => {
-            console.log("Autoplay bị chặn:", error);
-            musicButton.style.display = 'block';
+        window.addEventListener('resize', function() {
+          const fireworksCanvas = document.getElementById('fireworks-canvas');
+          if (fireworksCanvas) {
+            fireworksCanvas.width = window.innerWidth;
+            fireworksCanvas.height = window.innerHeight;
+          }
+          const balloonsCanvas = document.getElementById('balloons-canvas');
+          if (balloonsCanvas) {
+            balloonsCanvas.width = window.innerWidth;
+            balloonsCanvas.height = window.innerHeight;
+          }
         });
-    } else {
-        musicButton.style.display = 'block';
-    }
+        </script>
 
-</script>
+        <script>
+        function launchFireworks() {
+          const canvas = document.getElementById('fireworks-canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
 
-</body>
-</html>
+          const particles = [];
+          const gravity = 0.05;
+          const fireworks = [];
+          const stars = [];
+          const hearts = []; // Thêm mảng cho trái tim
+
+          let fireworkSpawnInterval = 5;
+          let frameCount = 0;
+
+          const fireworkColors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff', '#ffa500'];
+          const starColors = ['red', 'orange', 'yellow', 'lime', 'blue', 'violet', 'white', 'gold', 'silver'];
+          const heartColor = 'red'; // Màu trái tim
+
+          function drawStar(ctx, x, y, radius, points) {
+            ctx.beginPath();
+            for (let i = 0; i < 2 * points; i++) {
+              let angle = Math.PI * i / points;
+              let r = (i % 2 === 0) ? radius : radius / 2;
+              ctx.lineTo(x + r * Math.cos(angle), y + r * Math.sin(angle));
+            }
+            ctx.closePath();
+            ctx.fill();
+          }
+
+          function drawHeart(ctx, x, y, size) {
+            ctx.save();
+            ctx.fillStyle = heartColor;
+            ctx.beginPath();
+            ctx.moveTo(x, y + size / 4);
+            ctx.bezierCurveTo(x, y, x + size / 2, y, x + size / 2, y + size / 4);
+            ctx.bezierCurveTo(x + size / 2, y + size / 2, x, y + 3 * size / 4, x - size / 2, y + size / 4);
+            ctx.bezierCurveTo(x - size / 2, y + size / 2, x, y, x, y + size / 4);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+          }
+
+          class Particle {
+            constructor(x, y, color, size = Math.random() * 3 + 2, speedX = (Math.random() - 0.5) * 3, speedY = Math.random() * -10 - 5, alpha = 1, decay = Math.random() * 0.02 + 0.005) {
+              this.x = x;
+              this.y = y;
+              this.color = color;
+              this.size = size;
+              this.speedX = speedX;
+              this.speedY = speedY;
+              this.alpha = alpha;
+              this.decay = decay;
+            }
+
+            update() {
+              this.speedY += gravity;
+              this.x += this.speedX;
+              this.y += this.speedY;
+              this.alpha -= this.decay;
+            }
+
+            draw() {
+              ctx.save();
+              ctx.globalAlpha = this.alpha;
+              ctx.fillStyle = this.color;
+              ctx.beginPath();
+              ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+              ctx.closePath();
+              ctx.fill();
+              ctx.restore();
+            }
+          }
+
+          class Firework {
+            constructor(x, y, color) {
+              this.x = x;
+              this.y = y;
+              this.color = color;
+              this.particleCount = Math.floor(Math.random() * 80 + 80);
+              this.particles = [];
+              this.exploded = false;
+              this.hasTrails = Math.random() < 0.7;
+              this.trail = [];
+            }
+
+            explode() {
+              if (!this.exploded) {
+                for (let i = 0; i < this.particleCount; i++) {
+                  const speedX = (Math.random() - 0.5) * 10;
+                  const speedY = (Math.random() - 0.5) * 10;
+                  this.particles.push(new Particle(this.x, this.y, this.color, undefined, speedX, speedY));
+                }
+                this.exploded = true;
+              }
+            }
+
+            update() {
+              if (!this.exploded) {
+                this.y -= 5;
+                if (this.hasTrails) {
+                  this.trail.push({ x: this.x, y: this.y });
+                  if (this.trail.length > 10) {
+                    this.trail.shift();
+                  }
+                }
+                if (this.y < canvas.height / 3 || Math.random() < 0.03) {
+                  this.explode();
+                }
+              }
+              this.particles.forEach(particle => particle.update());
+            }
+
+            draw() {
+              if (!this.exploded) {
+                if (this.hasTrails) {
+                  ctx.beginPath();
+                  ctx.moveTo(this.trail && this.trail.length > 0 ? this.trail[0].x : this.x, this.trail && this.trail.length > 0 ? this.trail[0].y : this.y);
+                  for (let i = 1; i < (this.trail ? this.trail.length : 0); i++) {
+                    ctx.lineTo(this.trail[i].x, this.trail[i].y);
+                  }
+                  ctx.strokeStyle = this.color;
+                  ctx.lineWidth = 2;
+                  ctx.stroke();
+                }
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 5, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.fill();
+              }
+              this.particles.forEach(particle => particle.draw());
+            }
+          }
+
+          class Star {
+            constructor() {
+              this.x = Math.random() * canvas.width;
+              this.y = -Math.random() * canvas.height;
+              this.size = Math.random() * 8 + 5;
+              this.speed = Math.random() * 3 + 1;
+              this.color = starColors[Math.floor(Math.random() * starColors.length)];
+              this.alpha = Math.random() * 0.6 + 0.4;
+              this.rotation = Math.random() * Math.PI * 2;
+              this.rotationSpeed = Math.random() * 0.1 - 0.05;
+            }
+
+            update() {
+              this.y += this.speed;
+              this.rotation += this.rotationSpeed;
+              if (this.y > canvas.height + this.size) {
+                this.y = -this.size;
+                this.x = Math.random() * canvas.width;
+              }
+            }
+
+            draw() {
+              ctx.save();
+              ctx.translate(this.x, this.y);
+              ctx.rotate(this.rotation);
+              ctx.globalAlpha = this.alpha;
+              ctx.fillStyle = this.color;
+              drawStar(ctx, 0, 0, this.size / 2, 5);
+              ctx.restore();
+            }
+          }
+
+          class Heart {
+            constructor() {
+              this.x = Math.random() * canvas.width;
+              this.y = -Math.random() * canvas.height;
+              this.size = Math.random() * 20 + 10;
+              this.speed = Math.random() * 2 + 1;
+              this.alpha = Math.random() * 0.7 + 0.3;
+              this.rotation = Math.random() * Math.PI * 2;
+              this.rotationSpeed = Math.random() * 0.05 - 0.025;
+            }
+
+            update() {
+              this.y += this.speed;
+              this.rotation += this.rotationSpeed;
+              if (this.y > canvas.height + this.size) {
+                this.y = -this.size;
+                this.x = Math.random() * canvas.width;
+              }
+            }
+
+            draw() {
+              ctx.save();
+              ctx.translate(this.x, this.y);
+              ctx.rotate(this.rotation);
+              ctx.globalAlpha = this.alpha;
+              drawHeart(ctx, 0, 0, this.size);
+              ctx.restore();
+            }
+          }
+
+          function animateFireworks() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            frameCount++;
+            if (frameCount % fireworkSpawnInterval === 0) {
+              const x = Math.random() * canvas.width;
+              const y = canvas.height;
+              const color = fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
+              fireworks.push(new Firework(x, y, color));
+            }
+
+            fireworks.forEach(firework => {
+              firework.update();
+              firework.draw();
+            });
+
+            if (Math.random() < 0.7) {
+              const star = new Star();
+              stars.push(star);
+            }
+            stars.forEach(star => {
+              star.update();
+              star.draw();
+            });
+            stars.forEach((star, index) => {
+              if (star.y > canvas.height + star.size) {
+                stars.splice(index, 1);
+              }
+            });
+
+            if (Math.random() < 0.5) { // Thêm trái tim thường xuyên hơn
+              const heart = new Heart();
+              hearts.push(heart);
+            }
+            hearts.forEach(heart => {
+              heart.update();
+              heart.draw();
+            });
+            hearts.forEach((heart, index) => {
+              if (heart.y > canvas.height + heart.size) {
+                hearts.splice(index, 1);
+              }
+            });
+
+            requestAnimationFrame(animateFireworks);
+          }
+
+          animateFireworks();
+        }
+        </script>
+
+        <script>
+        function launchBalloons() {
+          const canvas = document.getElementById('balloons-canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+
+          const balloons = [];
+          const balloonColors = ['red', 'green', 'blue', 'yellow', 'purple', 'orange', 'cyan', 'magenta'];
+
+          class Balloon {
+            constructor(x, y, color) {
+              this.x = x;
+              this.y = y;
+              this.radius = Math.random() * 20 + 30;
+              this.color = color;
+              this.speedY = -(Math.random() * 0.5 + 0.5);
+              this.speedX = (Math.random() - 0.5) * 0.3;
+              this.alpha = 1;
+              this.decay = 0.001;
+            }
+
+            update() {
+              this.y += this.speedY;
+              this.x += this.speedX;
+              this.alpha -= this.decay;
+            }
+
+            draw() {
+              ctx.save();
+              ctx.globalAlpha = this.alpha;
+              ctx.fillStyle = this.color;
+              ctx.beginPath();
+              ctx.ellipse(this.x, this.y, this.radius * 0.7, this.radius, 0, 0, Math.PI * 2);
+              ctx.fill();
+
+              ctx.beginPath();
+              ctx.moveTo(this.x, this.y + this.radius);
+              ctx.lineTo(this.x + Math.random() * 10 - 5, this.y + this.radius + 20);
+              ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+              ctx.lineWidth = 1;
+              ctx.stroke();
+
+              ctx.restore();
+            }
+          }
+
+          function createBalloon() {
+            const x = Math.random() * canvas.width;
+            const y = canvas.height + 50;
+            const color = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+            balloons.push(new Balloon(x, y, color));
+          }
+
+          function animateBalloons() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (Math.random() < 0.015) {
+              createBalloon();
+            }
+
+            balloons.forEach(balloon => {
+              balloon.update();
+              balloon.draw();
+            });
+
+            balloons.forEach((balloon, index) => {
+              if (balloon.y < -100 || balloon.alpha <= 0.1) {
+                balloons.splice(index, 1);
+              }
+            });
+
+            requestAnimationFrame(animateBalloons);
+          }
+
+          animateBalloons();
+        }
+        </script>
+        </body>
+        </html>
+ 
