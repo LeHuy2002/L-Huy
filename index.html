@@ -1,511 +1,537 @@
- <!DOCTYPE html>
-        <html>
-        <head>
-        <title>Chúc Mừng Sinh Nhật Thuỳ Dương</title>
-        <style>
-          body {
-            background-color: pink;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            text-align: center;
-            overflow: hidden;
-            position: relative;
-          }
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chúc Mừng Sinh Nhật Thuỳ Dương</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    background-color: pink;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    font-family: 'Inter', sans-serif; /* Vẫn giữ font Inter */
+  }
 
-          button {
-            padding: 15px 30px;
-            font-size: 20px;
-            cursor: pointer;
-            border: none;
-            border-radius: 10px;
-            background-color: white;
-            color: black;
-            font-weight: bold;
-            background-image: linear-gradient(45deg, #FFDA63, #FF914D, #FF6363, #9400D3, #4B0082, #008080, #00BFFF, #8FBC8F);
-            background-size: 400% 400%;
-            animation: rainbow 5s infinite alternate;
-            color: white;
-            box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-            position: relative;
-            overflow: hidden;
-          }
+  button {
+    padding: 15px 30px;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    background-image: linear-gradient(45deg, #FFDA63, #FF914D, #FF6363, #9400D3, #4B0082, #008080, #00BFFF, #8FBC8F);
+    background-size: 400% 400%;
+    animation: rainbow 5s infinite alternate;
+    color: white;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out; /* Giữ hiệu ứng di chuột */
+  }
 
-          button::before {
-            content: "";
-            position: absolute;
-            top: -20px;
-            left: -20px;
-            width: calc(100% + 40px);
-            height: calc(100% + 40px);
-            background-image: url('duong_dan_den_hinh_anh_hoa_la.png'); /* Thay thế bằng đường dẫn thực tế */
-            background-size: cover;
-            opacity: 0.3;
-            z-index: -1;
-          }
+  button:hover {
+    transform: scale(1.05);
+  }
 
-          @keyframes rainbow {
-            0% {
-              background-position: 0% 50%;
+  button::before {
+    content: "";
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    width: calc(100% + 40px);
+    height: calc(100% + 40px);
+    background-image: url('duong_dan_den_hinh_anh_hoa_la.png'); /* Đã khôi phục đường dẫn ảnh gốc */
+    background-size: cover;
+    opacity: 0.3;
+    z-index: -1;
+  }
+
+  @keyframes rainbow {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+
+  #trang2 {
+    display: none; /* Trở lại trạng thái ban đầu */
+    margin-top: 20px;
+    z-index: 10;
+    position: relative;
+  }
+
+  /* Cỡ chữ responsive sử dụng clamp(), đã tăng 7% so với lần trước */
+  #tieuDeSinhNhat {
+    font-size: clamp(19px, 4.8vw, 40px); /* (18*1.07=19.26 -> 19), (4.5*1.07=4.815 -> 4.8), (37*1.07=39.59 -> 40) */
+    color: purple;
+    font-weight: bold;
+    margin-bottom: 15px; /* Giữ margin gốc */
+    text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+  }
+
+  #ngaySinh {
+    font-size: clamp(13px, 3.2vw, 25px); /* (12*1.07=12.84 -> 13), (3.0*1.07=3.21 -> 3.2), (23*1.07=24.61 -> 25) */
+    color: blue;
+    font-style: italic;
+    margin-bottom: 15px; /* Giữ margin gốc */
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  #loiKhen {
+    font-size: clamp(10px, 2.5vw, 19px); /* (9*1.07=9.63 -> 10), (2.3*1.07=2.461 -> 2.5), (18*1.07=19.26 -> 19) */
+    color: #FF69B4;
+    font-weight: bold;
+    margin-bottom: 25px; /* Giữ margin gốc */
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .loiChucSinhNhat {
+    font-size: clamp(7px, 2.0vw, 16px); /* (6*1.07=6.42 -> 7), (1.9*1.07=2.033 -> 2.0), (15*1.07=16.05 -> 16) */
+    color: black;
+    line-height: 1.6; /* Giữ line-height gốc */
+    margin-bottom: 12px; /* Giữ margin gốc */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  #audioNen {
+    display: none;
+  }
+
+  #animation-canvas { /* Canvas duy nhất cho tất cả hoạt ảnh */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+    will-change: transform, opacity;
+  }
+</style>
+</head>
+<body>
+
+<button id="nutBatNgo">Nhấn và sẽ có bất ngờ!</button>
+
+<div id="trang2">
+  <h1 id="tieuDeSinhNhat">Chúc Mừng Sinh Nhật Thuỳ Dương</h1>
+  <p id="ngaySinh">Ngày 20 Tháng 6</p>
+  <p id="loiKhen">🩷Ngày mà một thiên thần dễ thương xinh đẹp được sinh ra🩷</p>
+  <p class="loiChucSinhNhat">🥰Chúc em sinh nhật vui vẻ🥰</p>
+  <p class="loiChucSinhNhat">❤️Mong rằng tuổi mới sẽ mang đến em thật nhiều niềm vui và những điều bất ngờ thú vị❤️.</p>
+  <p class="loiChucSinhNhat">❤️Chúc em luôn xinh đẹp, rạng rỡ như những đóa hoa và ngọt ngào như những viên kẹo❤️.</p>
+  <p class="loiChucSinhNhat">❤️Chúc em tương lai sẽ có người luôn yêu thương em, chiều truộng em hết mực❤️.</p>
+  <p class="loiChucSinhNhat">❤️Chúc em mãi mãi là nàng công chúa bé nhỏ của người mà em thương❤️.</p>
+  <p class="loiChucSinhNhat">❤️Chúc em luôn mai mắn trong cuộc sống những điều tốt nhất sẽ đến bên em❤️.</p>
+  <p class="loiChucSinhNhat">❤️Gửi đến em những lời chúc tốt đẹp nhất từ trái tim!❤️</p>
+  <p class="loiChucSinhNhat">❤️Chúc em tất cả❤️.</p>
+</div>
+
+<audio id="audioNen" src="birthday.mp3"></audio>
+
+<canvas id="animation-canvas"></canvas>
+
+<script>
+// Canvas và context, đặt toàn cục để dễ truy cập trong vòng lặp hoạt ảnh
+let animationCanvas;
+let ctx;
+let requestId; // Để lưu trữ ID requestAnimationFrame cho việc hủy bỏ tiềm năng
+
+// Mảng chứa các đối tượng hoạt ảnh
+const particles = [];
+const fireworks = [];
+const stars = [];
+const hearts = [];
+const balloons = [];
+
+// Các hằng số cho hoạt ảnh
+const gravity = 0.05; // Trọng lực
+const fireworkColors = ['#FFD700', '#FF4500', '#00FF7F', '#1E90FF', '#BA55D3', '#FF69B4', '#FFFFFF']; // Màu pháo hoa sáng hơn
+const starColors = ['red', 'orange', 'yellow', 'lime', 'blue', 'violet', 'white', 'gold', 'silver']; // Màu sao ban đầu
+const heartColor = 'red'; // Màu trái tim ban đầu (chỉ hàm vẽ là mới)
+const balloonColors = ['red', 'green', 'blue', 'yellow', 'purple', 'orange', 'cyan', 'magenta']; // Màu bong bóng ban đầu
+
+// --- Hàm hỗ trợ vẽ ---
+function drawStar(ctx, x, y, radius, points) {
+  ctx.beginPath();
+  for (let i = 0; i < 2 * points; i++) {
+    let angle = Math.PI * i / points;
+    let r = (i % 2 === 0) ? radius : radius / 2;
+    ctx.lineTo(x + r * Math.cos(angle), y + r * Math.sin(angle));
+  }
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawHeart(ctx, x, y, size) {
+  ctx.beginPath();
+  const curveFactor = 0.3; // Điều chỉnh độ cong của trái tim
+
+  ctx.moveTo(x, y + size * curveFactor);
+  ctx.bezierCurveTo(
+    x + size * 0.5, y - size * 0.5,
+    x + size, y + size * curveFactor,
+    x, y + size * 0.9
+  );
+  ctx.bezierCurveTo(
+    x - size, y + size * curveFactor,
+    x - size * 0.5, y - size * 0.5,
+    x, y + size * curveFactor
+  );
+  ctx.closePath();
+  ctx.fill();
+}
+
+// --- Lớp đối tượng cơ bản ---
+class BaseObject {
+    constructor(x, y, color, speedX, speedY, alpha, decay, size) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.speedX = speedX;
+        this.speedY = speedY;
+        this.alpha = alpha;
+        this.decay = decay;
+        this.size = size;
+    }
+
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        this.alpha -= this.decay;
+    }
+
+    isDead() {
+        return this.alpha <= 0.05;
+    }
+}
+
+// --- Lớp hạt (Particle) ---
+class Particle extends BaseObject {
+    constructor(x, y, color, size = Math.random() * 1.5 + 0.5, speedX = (Math.random() - 0.5) * 1.5, speedY = Math.random() * -5 - 2, alpha = 1, decay = Math.random() * 0.04 + 0.015) {
+        super(x, y, color, speedX, speedY, alpha, decay, size);
+    }
+
+    update() {
+        super.update();
+        this.speedY += gravity;
+    }
+
+    draw() {
+        ctx.save();
+        ctx.globalAlpha = this.alpha;
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+    }
+
+    isDead() {
+        return super.isDead() || this.y > animationCanvas.height + this.size;
+    }
+}
+
+// --- Lớp pháo hoa (Firework) ---
+class Firework {
+    constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.particleCount = Math.floor(Math.random() * 40 + 40);
+        this.exploded = false;
+        this.hasTrails = Math.random() < 0.7;
+        this.trail = [];
+        this.speedY = Math.random() * -4 - 3; // Tăng tốc độ bay lên mạnh hơn
+    }
+
+    explode() {
+        if (!this.exploded) {
+            for (let i = 0; i < this.particleCount; i++) {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 4 + 1.5;
+                const speedX = Math.cos(angle) * speed;
+                const speedY = Math.sin(angle) * speed;
+                particles.push(new Particle(this.x, this.y, this.color, undefined, speedX, speedY));
             }
-            100% {
-              background-position: 100% 50%;
-            }
-          }
-
-          #trang2 {
-            display: none;
-            margin-top: 20px;
-            z-index: 10;
-            position: relative;
-          }
-
-          #tieuDeSinhNhat {
-            font-size: 48px; /* To hơn */
-            color: purple;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5); /* Nổi bật hơn */
-          }
-
-          #ngaySinh {
-            font-size: 30px; /* To hơn */
-            color: blue;
-            font-style: italic;
-            margin-bottom: 15px;
-            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3); /* Nổi bật hơn */
-          }
-
-          #loiKhen {
-            font-size: 24px; /* To hơn */
-            color: #FF69B4;
-            font-weight: bold;
-            margin-bottom: 25px;
-            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3); /* Nổi bật hơn */
-          }
-
-          .loiChucSinhNhat {
-            font-size: 20px; /* To hơn */
-            color: black;
-            line-height: 1.6;
-            margin-bottom: 12px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2); /* Nổi bật hơn */
-          }
-
-          #audioNen {
-            display: none;
-          }
-
-          #fireworks-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 5;
-          }
-
-          #balloons-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 4; /* Đảm bảo bong bóng ở dưới pháo hoa */
-          }
-        </style>
-        </head>
-        <body>
-
-        <button id="nutBatNgo" onclick="hienThiTrang2()">Nhấn và sẽ có bất ngờ!</button>
-
-        <div id="trang2">
-          <h1 id="tieuDeSinhNhat">Chúc Mừng Sinh Nhật Thuỳ Dương</h1>
-          <p id="ngaySinh">Ngày 20 Tháng 6</p>
-          <p id="loiKhen">🩷Ngày mà một thiên thần dễ thương xinh đẹp được sinh ra🩷</p>
-          <p class="loiChucSinhNhat">🥰Chúc em sinh nhật vui vẻ🥰</p>
-          <p class="loiChucSinhNhat">❤️Mong rằng tuổi mới sẽ mang đến em thật nhiều niềm vui và những điều bất ngờ thú vị❤️.</p>
-          <p class="loiChucSinhNhat">❤️Chúc em luôn xinh đẹp, rạng rỡ như những đóa hoa và ngọt ngào như những viên kẹo❤️.</p>
-          <p class="loiChucSinhNhat">❤️Chúc em tương lai sẽ có người luôn yêu thương em, chiều chuộng em hết mực❤️.</p>
-          <p class="loiChucSinhNhat">❤️Chúc em mãi mãi là nàng công chúa bé nhỏ của người mà em thương❤️.</p>
-          <p class="loiChucSinhNhat">❤️Chúc em luôn mai mắn trong cuộc sống những điều tốt nhất sẽ đến bên em❤️.</p>
-          <p class="loiChucSinhNhat">❤️Gửi đến em những lời chúc tốt đẹp nhất từ trái tim!❤️</p> 
-          <p class="loiChucSinhNhat">❤️Chúc em tất cả❤️.</p>    
-        </div>
-
-        <audio id="audioNen" src="birthday.mp3"></audio>
-
-        <canvas id="fireworks-canvas"></canvas>
-        <canvas id="balloons-canvas"></canvas>
-
-        <script>
-        function hienThiTrang2() {
-          var nutBatNgo = document.getElementById("nutBatNgo");
-          var trang2 = document.getElementById("trang2");
-          var amThanh = document.getElementById("audioNen");
-          var fireworksCanvas = document.getElementById("fireworks-canvas");
-          var fireworksCtx = fireworksCanvas.getContext('2d');
-          fireworksCanvas.width = window.innerWidth;
-          fireworksCanvas.height = window.innerHeight;
-
-          var balloonsCanvas = document.getElementById("balloons-canvas");
-          var balloonsCtx = balloonsCanvas.getContext('2d');
-          balloonsCanvas.width = window.innerWidth;
-          balloonsCanvas.height = window.innerHeight;
-
-          nutBatNgo.style.display = "none";
-          trang2.style.display = "block";
-          amThanh.play();
-
-          launchFireworks();
-          launchBalloons();
+            this.exploded = true;
         }
+    }
 
-        window.addEventListener('resize', function() {
-          const fireworksCanvas = document.getElementById('fireworks-canvas');
-          if (fireworksCanvas) {
-            fireworksCanvas.width = window.innerWidth;
-            fireworksCanvas.height = window.innerHeight;
-          }
-          const balloonsCanvas = document.getElementById('balloons-canvas');
-          if (balloonsCanvas) {
-            balloonsCanvas.width = window.innerWidth;
-            balloonsCanvas.height = window.innerHeight;
-          }
-        });
-        </script>
-
-        <script>
-        function launchFireworks() {
-          const canvas = document.getElementById('fireworks-canvas');
-          const ctx = canvas.getContext('2d');
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
-
-          const particles = [];
-          const gravity = 0.05;
-          const fireworks = [];
-          const stars = [];
-          const hearts = []; // Thêm mảng cho trái tim
-
-          let fireworkSpawnInterval = 5;
-          let frameCount = 0;
-
-          const fireworkColors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffffff', '#ffa500'];
-          const starColors = ['red', 'orange', 'yellow', 'lime', 'blue', 'violet', 'white', 'gold', 'silver'];
-          const heartColor = 'red'; // Màu trái tim
-
-          function drawStar(ctx, x, y, radius, points) {
-            ctx.beginPath();
-            for (let i = 0; i < 2 * points; i++) {
-              let angle = Math.PI * i / points;
-              let r = (i % 2 === 0) ? radius : radius / 2;
-              ctx.lineTo(x + r * Math.cos(angle), y + r * Math.sin(angle));
-            }
-            ctx.closePath();
-            ctx.fill();
-          }
-
-          function drawHeart(ctx, x, y, size) {
-            ctx.save();
-            ctx.fillStyle = heartColor;
-            ctx.beginPath();
-            ctx.moveTo(x, y + size / 4);
-            ctx.bezierCurveTo(x, y, x + size / 2, y, x + size / 2, y + size / 4);
-            ctx.bezierCurveTo(x + size / 2, y + size / 2, x, y + 3 * size / 4, x - size / 2, y + size / 4);
-            ctx.bezierCurveTo(x - size / 2, y + size / 2, x, y, x, y + size / 4);
-            ctx.closePath();
-            ctx.fill();
-            ctx.restore();
-          }
-
-          class Particle {
-            constructor(x, y, color, size = Math.random() * 3 + 2, speedX = (Math.random() - 0.5) * 3, speedY = Math.random() * -10 - 5, alpha = 1, decay = Math.random() * 0.02 + 0.005) {
-              this.x = x;
-              this.y = y;
-              this.color = color;
-              this.size = size;
-              this.speedX = speedX;
-              this.speedY = speedY;
-              this.alpha = alpha;
-              this.decay = decay;
-            }
-
-            update() {
-              this.speedY += gravity;
-              this.x += this.speedX;
-              this.y += this.speedY;
-              this.alpha -= this.decay;
-            }
-
-            draw() {
-              ctx.save();
-              ctx.globalAlpha = this.alpha;
-              ctx.fillStyle = this.color;
-              ctx.beginPath();
-              ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-              ctx.closePath();
-              ctx.fill();
-              ctx.restore();
-            }
-          }
-
-          class Firework {
-            constructor(x, y, color) {
-              this.x = x;
-              this.y = y;
-              this.color = color;
-              this.particleCount = Math.floor(Math.random() * 80 + 80);
-              this.particles = [];
-              this.exploded = false;
-              this.hasTrails = Math.random() < 0.7;
-              this.trail = [];
-            }
-
-            explode() {
-              if (!this.exploded) {
-                for (let i = 0; i < this.particleCount; i++) {
-                  const speedX = (Math.random() - 0.5) * 10;
-                  const speedY = (Math.random() - 0.5) * 10;
-                  this.particles.push(new Particle(this.x, this.y, this.color, undefined, speedX, speedY));
-                }
-                this.exploded = true;
-              }
-            }
-
-            update() {
-              if (!this.exploded) {
-                this.y -= 5;
-                if (this.hasTrails) {
-                  this.trail.push({ x: this.x, y: this.y });
-                  if (this.trail.length > 10) {
+    update() {
+        if (!this.exploded) {
+            this.y += this.speedY;
+            if (this.hasTrails) {
+                this.trail.push({ x: this.x, y: this.y });
+                if (this.trail.length > 6) {
                     this.trail.shift();
-                  }
                 }
-                if (this.y < canvas.height / 3 || Math.random() < 0.03) {
-                  this.explode();
-                }
-              }
-              this.particles.forEach(particle => particle.update());
             }
+            // Tăng ngưỡng nổ và tăng xác suất nổ sớm
+            if (this.y < animationCanvas.height * 0.2 || Math.random() < 0.06) {
+                this.explode();
+            }
+        }
+    }
 
-            draw() {
-              if (!this.exploded) {
-                if (this.hasTrails) {
-                  ctx.beginPath();
-                  ctx.moveTo(this.trail && this.trail.length > 0 ? this.trail[0].x : this.x, this.trail && this.trail.length > 0 ? this.trail[0].y : this.y);
-                  for (let i = 1; i < (this.trail ? this.trail.length : 0); i++) {
-                    ctx.lineTo(this.trail[i].x, this.trail[i].y);
-                  }
-                  ctx.strokeStyle = this.color;
-                  ctx.lineWidth = 2;
-                  ctx.stroke();
-                }
-                ctx.fillStyle = this.color;
+    draw() {
+        if (!this.exploded) {
+            if (this.hasTrails && this.trail.length > 1) {
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, 5, 0, Math.PI * 2);
-                ctx.closePath();
-                ctx.fill();
-              }
-              this.particles.forEach(particle => particle.draw());
+                ctx.moveTo(this.trail[0].x, this.trail[0].y);
+                for (let i = 1; i < this.trail.length; i++) {
+                    ctx.lineTo(this.trail[i].x, this.trail[i].y);
+                }
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 1.5; // Tăng độ dày vệt sáng để sáng hơn
+                ctx.stroke();
             }
-          }
-
-          class Star {
-            constructor() {
-              this.x = Math.random() * canvas.width;
-              this.y = -Math.random() * canvas.height;
-              this.size = Math.random() * 8 + 5;
-              this.speed = Math.random() * 3 + 1;
-              this.color = starColors[Math.floor(Math.random() * starColors.length)];
-              this.alpha = Math.random() * 0.6 + 0.4;
-              this.rotation = Math.random() * Math.PI * 2;
-              this.rotationSpeed = Math.random() * 0.1 - 0.05;
-            }
-
-            update() {
-              this.y += this.speed;
-              this.rotation += this.rotationSpeed;
-              if (this.y > canvas.height + this.size) {
-                this.y = -this.size;
-                this.x = Math.random() * canvas.width;
-              }
-            }
-
-            draw() {
-              ctx.save();
-              ctx.translate(this.x, this.y);
-              ctx.rotate(this.rotation);
-              ctx.globalAlpha = this.alpha;
-              ctx.fillStyle = this.color;
-              drawStar(ctx, 0, 0, this.size / 2, 5);
-              ctx.restore();
-            }
-          }
-
-          class Heart {
-            constructor() {
-              this.x = Math.random() * canvas.width;
-              this.y = -Math.random() * canvas.height;
-              this.size = Math.random() * 20 + 10;
-              this.speed = Math.random() * 2 + 1;
-              this.alpha = Math.random() * 0.7 + 0.3;
-              this.rotation = Math.random() * Math.PI * 2;
-              this.rotationSpeed = Math.random() * 0.05 - 0.025;
-            }
-
-            update() {
-              this.y += this.speed;
-              this.rotation += this.rotationSpeed;
-              if (this.y > canvas.height + this.size) {
-                this.y = -this.size;
-                this.x = Math.random() * canvas.width;
-              }
-            }
-
-            draw() {
-              ctx.save();
-              ctx.translate(this.x, this.y);
-              ctx.rotate(this.rotation);
-              ctx.globalAlpha = this.alpha;
-              drawHeart(ctx, 0, 0, this.size);
-              ctx.restore();
-            }
-          }
-
-          function animateFireworks() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            frameCount++;
-            if (frameCount % fireworkSpawnInterval === 0) {
-              const x = Math.random() * canvas.width;
-              const y = canvas.height;
-              const color = fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
-              fireworks.push(new Firework(x, y, color));
-            }
-
-            fireworks.forEach(firework => {
-              firework.update();
-              firework.draw();
-            });
-
-            if (Math.random() < 0.7) {
-              const star = new Star();
-              stars.push(star);
-            }
-            stars.forEach(star => {
-              star.update();
-              star.draw();
-            });
-            stars.forEach((star, index) => {
-              if (star.y > canvas.height + star.size) {
-                stars.splice(index, 1);
-              }
-            });
-
-            if (Math.random() < 0.5) { // Thêm trái tim thường xuyên hơn
-              const heart = new Heart();
-              hearts.push(heart);
-            }
-            hearts.forEach(heart => {
-              heart.update();
-              heart.draw();
-            });
-            hearts.forEach((heart, index) => {
-              if (heart.y > canvas.height + heart.size) {
-                hearts.splice(index, 1);
-              }
-            });
-
-            requestAnimationFrame(animateFireworks);
-          }
-
-          animateFireworks();
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, 2, 0, Math.PI * 2); // Tăng nhẹ kích thước chấm pháo hoa bay lên
+            ctx.closePath();
+            ctx.fill();
         }
-        </script>
+    }
 
-        <script>
-        function launchBalloons() {
-          const canvas = document.getElementById('balloons-canvas');
-          const ctx = canvas.getContext('2d');
-          canvas.width = window.innerWidth;
-          canvas.height = window.innerHeight;
+    isDead() {
+        return this.exploded && particles.filter(p => p.color === this.color && !p.isDead()).length === 0;
+    }
+}
 
-          const balloons = [];
-          const balloonColors = ['red', 'green', 'blue', 'yellow', 'purple', 'orange', 'cyan', 'magenta'];
+// --- Lớp ngôi sao (Star) ---
+class Star extends BaseObject {
+    constructor() {
+        const x = Math.random() * animationCanvas.width;
+        const y = -Math.random() * animationCanvas.height;
+        const size = Math.random() * 6 + 3;
+        const speed = Math.random() * 1.5 + 0.3;
+        const color = starColors[Math.floor(Math.random() * starColors.length)];
+        const alpha = Math.random() * 0.6 + 0.4;
+        super(x, y, color, 0, speed, alpha, 0, size);
+        this.rotation = Math.random() * Math.PI * 2;
+        this.rotationSpeed = Math.random() * 0.05 - 0.025;
+    }
 
-          class Balloon {
-            constructor(x, y, color) {
-              this.x = x;
-              this.y = y;
-              this.radius = Math.random() * 20 + 30;
-              this.color = color;
-              this.speedY = -(Math.random() * 0.5 + 0.5);
-              this.speedX = (Math.random() - 0.5) * 0.3;
-              this.alpha = 1;
-              this.decay = 0.001;
-            }
-
-            update() {
-              this.y += this.speedY;
-              this.x += this.speedX;
-              this.alpha -= this.decay;
-            }
-
-            draw() {
-              ctx.save();
-              ctx.globalAlpha = this.alpha;
-              ctx.fillStyle = this.color;
-              ctx.beginPath();
-              ctx.ellipse(this.x, this.y, this.radius * 0.7, this.radius, 0, 0, Math.PI * 2);
-              ctx.fill();
-
-              ctx.beginPath();
-              ctx.moveTo(this.x, this.y + this.radius);
-              ctx.lineTo(this.x + Math.random() * 10 - 5, this.y + this.radius + 20);
-              ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
-              ctx.lineWidth = 1;
-              ctx.stroke();
-
-              ctx.restore();
-            }
-          }
-
-          function createBalloon() {
-            const x = Math.random() * canvas.width;
-            const y = canvas.height + 50;
-            const color = balloonColors[Math.floor(Math.random() * balloonColors.length)];
-            balloons.push(new Balloon(x, y, color));
-          }
-
-          function animateBalloons() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            if (Math.random() < 0.015) {
-              createBalloon();
-            }
-
-            balloons.forEach(balloon => {
-              balloon.update();
-              balloon.draw();
-            });
-
-            balloons.forEach((balloon, index) => {
-              if (balloon.y < -100 || balloon.alpha <= 0.1) {
-                balloons.splice(index, 1);
-              }
-            });
-
-            requestAnimationFrame(animateBalloons);
-          }
-
-          animateBalloons();
+    update() {
+        super.update();
+        this.rotation += this.rotationSpeed;
+        if (this.y > animationCanvas.height + this.size) {
+            this.y = -this.size;
+            this.x = Math.random() * animationCanvas.width;
+            this.alpha = Math.random() * 0.6 + 0.4;
+            this.speedY = Math.random() * 1.5 + 0.3;
         }
-        </script>
-        </body>
-        </html>
+    }
+
+    draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.globalAlpha = this.alpha;
+        ctx.fillStyle = this.color;
+        drawStar(ctx, 0, 0, this.size / 2, 5);
+        ctx.restore();
+    }
+
+    isDead() {
+        return false;
+    }
+}
+
+// --- Lớp trái tim (Heart) ---
+class Heart extends BaseObject {
+    constructor() {
+        const x = Math.random() * animationCanvas.width;
+        const y = -Math.random() * animationCanvas.height;
+        const size = Math.random() * 15 + 8;
+        const speed = Math.random() * 1 + 0.3;
+        const alpha = Math.random() * 0.7 + 0.3;
+        super(x, y, heartColor, 0, speed, alpha, 0, size);
+        this.rotation = Math.random() * Math.PI * 2;
+        this.rotationSpeed = Math.random() * 0.05 - 0.025;
+    }
+
+    update() {
+        super.update();
+        this.rotation += this.rotationSpeed;
+        if (this.y > animationCanvas.height + this.size) {
+            this.y = -this.size;
+            this.x = Math.random() * animationCanvas.width;
+            this.alpha = Math.random() * 0.7 + 0.3;
+            this.speedY = Math.random() * 1 + 0.3;
+        }
+    }
+
+    draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.globalAlpha = this.alpha;
+        ctx.fillStyle = this.color;
+        drawHeart(ctx, 0, 0, this.size); // Sử dụng hàm drawHeart đã chỉnh sửa
+        ctx.restore();
+    }
+
+    isDead() {
+        return false;
+    }
+}
+
+// --- Lớp bong bóng (Balloon) ---
+class Balloon extends BaseObject {
+    constructor(x, y, color) {
+        const radius = Math.random() * 15 + 20;
+        const speedY = -(Math.random() * 0.3 + 0.3);
+        const speedX = (Math.random() - 0.5) * 0.2;
+        const alpha = 1;
+        const decay = 0.0015;
+        super(x, y, color, speedX, speedY, alpha, decay, radius);
+    }
+
+    update() {
+        super.update();
+        this.x += Math.sin(this.y * 0.015) * 0.3;
+    }
+
+    draw() {
+        ctx.save();
+        ctx.globalAlpha = this.alpha;
+        ctx.fillStyle = this.color;
+
+        ctx.beginPath();
+        ctx.ellipse(this.x, this.y, this.size * 0.7, this.size, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y + this.size);
+        ctx.lineTo(this.x - 2, this.y + this.size + 7);
+        ctx.lineTo(this.x + 2, this.y + this.size + 7);
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y + this.size + 7);
+        ctx.lineTo(this.x + (Math.sin(this.y * 0.02) * 10), this.y + this.size + 30);
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+
+        ctx.restore();
+    }
+
+    isDead() {
+        return super.isDead() || this.y < -this.size * 2;
+    }
+}
+
+
+// --- Hàm hoạt ảnh chính ---
+function animate() {
+    ctx.clearRect(0, 0, animationCanvas.width, animationCanvas.height);
+
+    // Tăng tần suất tạo pháo hoa và giới hạn số lượng tối đa
+    if (Math.random() < 0.1 && fireworks.length < 25) {
+        const x = Math.random() * animationCanvas.width;
+        const y = animationCanvas.height + 20;
+        const color = fireworkColors[Math.floor(Math.random() * fireworkColors.length)];
+        fireworks.push(new Firework(x, y, color));
+    }
+    for (let i = fireworks.length - 1; i >= 0; i--) {
+        fireworks[i].update();
+        fireworks[i].draw();
+        if (fireworks[i].isDead()) {
+            fireworks.splice(i, 1);
+        }
+    }
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].isDead()) {
+            particles.splice(i, 1);
+        }
+    }
+
+    // Tăng số lượng sao tối đa để xuất hiện nhiều hơn
+    while (stars.length < 60) {
+        stars.push(new Star());
+    }
+    stars.forEach(star => {
+        star.update();
+        star.draw();
+    });
+
+    // Tăng số lượng trái tim tối đa để xuất hiện nhiều hơn
+    while (hearts.length < 50) {
+        hearts.push(new Heart());
+    }
+    hearts.forEach(heart => {
+        heart.update();
+        heart.draw();
+    });
+
+    // Tăng tần suất và số lượng bong bóng
+    if (Math.random() < 0.04 && balloons.length < 20) {
+        const x = Math.random() * animationCanvas.width;
+        const y = animationCanvas.height + 50;
+        const color = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+        balloons.push(new Balloon(x, y, color));
+    }
+    for (let i = balloons.length - 1; i >= 0; i--) {
+        balloons[i].update();
+        balloons[i].draw();
+        if (balloons[i].isDead()) {
+            balloons.splice(i, 1);
+        }
+    }
+
+    requestId = requestAnimationFrame(animate);
+}
+
+// --- Xử lý sự kiện ---
+function hienThiTrang2() {
+    const nutBatNgo = document.getElementById("nutBatNgo");
+    const trang2 = document.getElementById("trang2");
+    const amThanh = document.getElementById("audioNen");
+
+    animationCanvas = document.getElementById("animation-canvas");
+    ctx = animationCanvas.getContext('2d');
+    animationCanvas.width = window.innerWidth;
+    animationCanvas.height = window.innerHeight;
+
+    nutBatNgo.style.display = "none";
+    trang2.style.display = "block"; /* Hiển thị ngay lập tức như code gốc */
+
+    amThanh.play();
+    animate();
+}
+
+window.addEventListener('load', () => {
+    const nutBatNgo = document.getElementById("nutBatNgo");
+    if (nutBatNgo) {
+        nutBatNgo.addEventListener('click', hienThiTrang2);
+    }
+});
+
+window.addEventListener('resize', () => {
+    if (animationCanvas) {
+        animationCanvas.width = window.innerWidth;
+        animationCanvas.height = window.innerHeight;
+    }
+});
+</script>
+</body>
+</html>
