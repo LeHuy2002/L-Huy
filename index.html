@@ -474,8 +474,10 @@ class SoapBubble extends BaseObject {
     constructor() {
         const radius = Math.random() * 15 + 10; // Kích thước bong bóng từ 10 đến 25
         const x = Math.random() * animationCanvas.width;
-        const y = animationCanvas.height + radius; // Bắt đầu từ dưới màn hình
-        const speedY = -(Math.random() * 0.5 + 0.5); // Tốc độ bay lên
+        // Bắt đầu từ trên màn hình (vị trí y âm để xuất hiện mượt mà)
+        const y = -radius;
+        // Tốc độ ban đầu dương để rơi xuống
+        const speedY = (Math.random() * 0.5 + 0.5);
         const speedX = (Math.random() - 0.5) * 0.5; // Tốc độ di chuyển ngang nhẹ
         const alpha = Math.random() * 0.6 + 0.4; // Tăng dải độ trong suốt ban đầu (0.4 - 1.0)
         const decay = 0.0008; // Tốc độ mờ dần chậm
@@ -487,6 +489,8 @@ class SoapBubble extends BaseObject {
 
     update() {
         super.update();
+        // Áp dụng trọng lực khi rơi xuống
+        this.speedY += gravity * 0.5; // Giảm nhẹ tác động trọng lực để rơi mềm mại hơn
         this.x += this.speedX + Math.sin((this.y * 0.05) + this.oscillationOffset) * 0.8; // Lắc lư ngang mạnh hơn
         this.rotation += (this.speedX * 0.02); // Thêm xoay nhẹ dựa trên tốc độ ngang
     }
@@ -495,9 +499,11 @@ class SoapBubble extends BaseObject {
         ctx.save();
         ctx.globalAlpha = this.alpha; // Sử dụng alpha của đối tượng
 
+        // Lưu ý: Các tọa độ trong gradient và arc/ellipse/highlight sẽ là tương đối
+        // sau khi ctx.translate đã dịch chuyển về vị trí của bong bóng.
         const gradient = ctx.createRadialGradient(
-            this.x + this.size * 0.2, this.y - this.size * 0.2, this.size * 0.1, // Tâm của highlight
-            this.x, this.y, this.size * 0.8 // Tâm và bán kính của gradient chính
+            this.size * 0.2, -this.size * 0.2, this.size * 0.1, // Tâm của highlight (tương đối với bong bóng)
+            0, 0, this.size * 0.8 // Tâm và bán kính của gradient chính (tương đối với bong bóng)
         );
 
         // Thêm các điểm dừng màu để tạo hiệu ứng óng ánh rõ rệt hơn
@@ -511,15 +517,15 @@ class SoapBubble extends BaseObject {
         ctx.fillStyle = gradient;
 
         // Áp dụng biến dạng và xoay
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.rotation);
+        ctx.translate(this.x, this.y); // Dịch chuyển context đến vị trí của bong bóng
+        ctx.rotate(this.rotation); // Xoay context theo góc quay của bong bóng
         ctx.beginPath();
         ctx.ellipse(
-            0, // Vị trí x tương đối sau khi dịch chuyển
-            0, // Vị trí y tương đối sau khi dịch chuyển
+            0, // Vị trí x tương đối sau khi dịch chuyển (nghĩa là tại tâm của bong bóng)
+            0, // Vị trí y tương đối sau khi dịch chuyển (nghĩa là tại tâm của bong bóng)
             this.size * (1 + Math.sin(this.y * 0.01 + this.oscillationOffset) * this.shapeDistortion), // Thay đổi chiều rộng nhẹ
             this.size * (1 - Math.cos(this.y * 0.01 + this.oscillationOffset) * this.shapeDistortion), // Thay đổi chiều cao nhẹ
-            0, // Góc xoay đã áp dụng bằng ctx.rotate
+            0, // Góc xoay đã áp dụng bằng ctx.rotate, nên ở đây là 0
             0,
             Math.PI * 2
         );
@@ -559,7 +565,8 @@ class SoapBubble extends BaseObject {
     }
 
     isDead() {
-        return super.isDead() || this.y < -this.size; // Bong bóng ra khỏi màn hình
+        // Bong bóng bị loại bỏ khi rơi ra khỏi màn hình phía dưới
+        return super.isDead() || this.y > animationCanvas.height + this.size;
     }
 }
 
