@@ -16,7 +16,7 @@
     text-align: center;
     overflow: hidden;
     position: relative;
-    font-family: 'Inter', sans-serif; /* Vẫn giữ font Inter */
+    font-family: 'Inter', sans-serif; /* Sử dụng font Inter */
   }
 
   button {
@@ -49,7 +49,8 @@
     left: -20px;
     width: calc(100% + 40px);
     height: calc(100% + 40px);
-    background-image: url('duong_dan_den_hinh_anh_hoa_la.png'); /* Đã khôi phục đường dẫn ảnh gốc */
+    /* Placeholder for image - original URL was 'duong_dan_den_hinh_anh_hoa_la.png' */
+    background-image: url('https://placehold.co/100x100/A0A0A0/FFFFFF?text=Floral+Pattern'); /* Hình ảnh placeholder */
     background-size: cover;
     opacity: 0.3;
     z-index: -1;
@@ -71,36 +72,36 @@
     position: relative;
   }
 
-  /* Cỡ chữ responsive sử dụng clamp(), đã tăng 7% so với lần trước */
+  /* Cỡ chữ responsive sử dụng clamp() */
   #tieuDeSinhNhat {
-    font-size: clamp(19px, 4.8vw, 40px); /* (18*1.07=19.26 -> 19), (4.5*1.07=4.815 -> 4.8), (37*1.07=39.59 -> 40) */
+    font-size: clamp(19px, 4.8vw, 40px);
     color: purple;
     font-weight: bold;
-    margin-bottom: 15px; /* Giữ margin gốc */
+    margin-bottom: 15px;
     text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
   }
 
   #ngaySinh {
-    font-size: clamp(13px, 3.2vw, 25px); /* (12*1.07=12.84 -> 13), (3.0*1.07=3.21 -> 3.2), (23*1.07=24.61 -> 25) */
+    font-size: clamp(13px, 3.2vw, 25px);
     color: blue;
     font-style: italic;
-    margin-bottom: 15px; /* Giữ margin gốc */
+    margin-bottom: 15px;
     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
   }
 
   #loiKhen {
-    font-size: clamp(10px, 2.5vw, 19px); /* (9*1.07=9.63 -> 10), (2.3*1.07=2.461 -> 2.5), (18*1.07=19.26 -> 19) */
+    font-size: clamp(10px, 2.5vw, 19px);
     color: #FF69B4;
     font-weight: bold;
-    margin-bottom: 25px; /* Giữ margin gốc */
+    margin-bottom: 25px;
     text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
   }
 
   .loiChucSinhNhat {
-    font-size: clamp(7px, 2.0vw, 16px); /* (6*1.07=6.42 -> 7), (1.9*1.07=2.033 -> 2.0), (15*1.07=16.05 -> 16) */
+    font-size: clamp(7px, 2.0vw, 16px);
     color: Brown;
-    line-height: 1.6; /* Giữ line-height gốc */
-    margin-bottom: 12px; /* Giữ margin gốc */
+    line-height: 1.6;
+    margin-bottom: 12px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
   }
 
@@ -154,14 +155,14 @@ const fireworks = [];
 const stars = [];
 const hearts = [];
 const balloons = [];
-const soapBubbles = []; // Mảng mới cho bong bóng xà phòng
-const paperCranes = []; // Mảng mới cho hạc giấy
+const soapBubbles = []; // Mảng cho bong bóng xà phòng
+const paperCranes = []; // Mảng cho hạc giấy
 
 // Các hằng số cho hoạt ảnh
 const gravity = 0.05; // Trọng lực
 const fireworkColors = ['#FFD700', '#FF4500', '#00FF7F', '#1E90FF', '#BA55D3', '#FF69B4', '#FFFFFF']; // Màu pháo hoa sáng hơn
 const starColors = ['red', 'orange', 'yellow', 'lime', 'blue', 'violet', 'white', 'gold', 'silver']; // Màu sao ban đầu
-const heartColor = 'red'; // Màu trái tim ban đầu (chỉ hàm vẽ là mới)
+const heartColor = 'red'; // Màu trái tim ban đầu
 const balloonColors = ['red', 'green', 'blue', 'yellow', 'purple', 'orange', 'cyan', 'magenta']; // Màu bong bóng ban đầu
 
 // --- Hàm hỗ trợ vẽ ---
@@ -476,41 +477,83 @@ class SoapBubble extends BaseObject {
         const y = animationCanvas.height + radius; // Bắt đầu từ dưới màn hình
         const speedY = -(Math.random() * 0.5 + 0.5); // Tốc độ bay lên
         const speedX = (Math.random() - 0.5) * 0.5; // Tốc độ di chuyển ngang nhẹ
-        const alpha = Math.random() * 0.3 + 0.3; // Độ trong suốt ban đầu (0.3 - 0.6)
+        const alpha = Math.random() * 0.6 + 0.4; // Tăng dải độ trong suốt ban đầu (0.4 - 1.0)
         const decay = 0.0008; // Tốc độ mờ dần chậm
         super(x, y, 'rgba(255, 255, 255, 0)', speedX, speedY, alpha, decay, radius); // Màu được tạo trong draw
         this.oscillationOffset = Math.random() * Math.PI * 2; // Offset cho hiệu ứng lắc lư ngang
+        this.shapeDistortion = Math.random() * 0.07 + 0.02; // Tăng biến dạng hình dạng nhẹ
+        this.rotation = Math.random() * Math.PI * 2; // Góc xoay ban đầu
     }
 
     update() {
         super.update();
-        this.x += this.speedX + Math.sin((this.y * 0.05) + this.oscillationOffset) * 0.5; // Lắc lư ngang khi bay lên
+        this.x += this.speedX + Math.sin((this.y * 0.05) + this.oscillationOffset) * 0.8; // Lắc lư ngang mạnh hơn
+        this.rotation += (this.speedX * 0.02); // Thêm xoay nhẹ dựa trên tốc độ ngang
     }
 
     draw() {
         ctx.save();
         ctx.globalAlpha = this.alpha; // Sử dụng alpha của đối tượng
 
-        // Vẽ bong bóng chính
         const gradient = ctx.createRadialGradient(
-            this.x + this.size * 0.3, this.y - this.size * 0.3, this.size * 0.1,
-            this.x, this.y, this.size * 0.8
+            this.x + this.size * 0.2, this.y - this.size * 0.2, this.size * 0.1, // Tâm của highlight
+            this.x, this.y, this.size * 0.8 // Tâm và bán kính của gradient chính
         );
-        gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)'); // Tâm sáng
-        gradient.addColorStop(0.5, 'rgba(173, 216, 230, 0.5)'); // Xanh nhạt trong
-        gradient.addColorStop(1, 'rgba(135, 206, 235, 0.2)'); // Xanh nhạt hơn ở rìa
+
+        // Thêm các điểm dừng màu để tạo hiệu ứng óng ánh rõ rệt hơn
+        gradient.addColorStop(0, `rgba(255, 255, 255, ${this.alpha * 1.0})`); // Tâm bong bóng rất sáng
+        gradient.addColorStop(0.15, `hsla(${180 + Math.sin(this.y * 0.03) * 80}, 100%, 85%, ${this.alpha * 0.8})`); // Màu xanh-tím nhạt thay đổi rõ hơn
+        gradient.addColorStop(0.35, `hsla(${240 + Math.cos(this.y * 0.02) * 80}, 100%, 80%, ${this.alpha * 0.7})`); // Màu tím-xanh thay đổi rõ hơn
+        gradient.addColorStop(0.55, `hsla(${300 + Math.sin(this.y * 0.04) * 80}, 100%, 75%, ${this.alpha * 0.6})`); // Màu hồng-tím thay đổi rõ hơn
+        gradient.addColorStop(0.75, `hsla(${0 + Math.cos(this.y * 0.03) * 80}, 100%, 70%, ${this.alpha * 0.5})`); // Màu cam-đỏ thay đổi rõ hơn
+        gradient.addColorStop(1, `rgba(255, 255, 255, ${this.alpha * 0.2})`); // Ngoại vi trong suốt hơn một chút
 
         ctx.fillStyle = gradient;
+
+        // Áp dụng biến dạng và xoay
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.ellipse(
+            0, // Vị trí x tương đối sau khi dịch chuyển
+            0, // Vị trí y tương đối sau khi dịch chuyển
+            this.size * (1 + Math.sin(this.y * 0.01 + this.oscillationOffset) * this.shapeDistortion), // Thay đổi chiều rộng nhẹ
+            this.size * (1 - Math.cos(this.y * 0.01 + this.oscillationOffset) * this.shapeDistortion), // Thay đổi chiều cao nhẹ
+            0, // Góc xoay đã áp dụng bằng ctx.rotate
+            0,
+            Math.PI * 2
+        );
         ctx.fill();
 
-        // Thêm đường viền mỏng, óng ánh
-        ctx.strokeStyle = `rgba(255, 255, 255, ${this.alpha * 0.8})`; // Viền trắng hơn
-        ctx.lineWidth = 1;
+        // Thêm đường viền mỏng, óng ánh hơn và sáng hơn
+        ctx.strokeStyle = `rgba(255, 255, 255, ${this.alpha * 1.0})`; // Viền trắng rất sáng
+        ctx.lineWidth = 2; // Độ dày viền tăng
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.ellipse(
+            0,
+            0,
+            this.size * (1 + Math.sin(this.y * 0.01 + this.oscillationOffset) * this.shapeDistortion),
+            this.size * (1 - Math.cos(this.y * 0.01 + this.oscillationOffset) * this.shapeDistortion),
+            0,
+            0,
+            Math.PI * 2
+        );
         ctx.stroke();
+
+        // Thêm một highlight lớn hơn và một highlight nhỏ hơn trên bề mặt
+        if (this.alpha > 0.3) { // Chỉ vẽ highlight khi bong bóng còn đủ rõ
+            // Highlight lớn và sáng hơn
+            ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha * 0.95})`; // Rất sáng
+            ctx.beginPath();
+            ctx.arc(this.size * 0.35, -this.size * 0.35, this.size * 0.15, 0, Math.PI * 2); // Vị trí highlight tương đối, kích thước lớn hơn
+            ctx.fill();
+
+            // Highlight nhỏ, mờ hơn một chút
+            ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha * 0.75})`; // Sáng vừa
+            ctx.beginPath();
+            ctx.arc(-this.size * 0.3, -this.size * 0.5, this.size * 0.08, 0, Math.PI * 2); // Vị trí highlight tương đối, kích thước nhỏ hơn
+            ctx.fill();
+        }
 
         ctx.restore();
     }
@@ -624,7 +667,7 @@ function animate() {
     }
 
     // Cập nhật và vẽ bong bóng xà phòng
-    if (Math.random() < 0.2 && soapBubbles.length < 50) {
+    if (Math.random() < 0.25 && soapBubbles.length < 60) { // Tăng tần suất và số lượng bong bóng
         soapBubbles.push(new SoapBubble());
     }
     for (let i = soapBubbles.length - 1; i >= 0; i--) {
