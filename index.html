@@ -154,6 +154,8 @@ const fireworks = [];
 const stars = [];
 const hearts = [];
 const balloons = [];
+const soapBubbles = []; // Mảng mới cho bong bóng xà phòng
+const paperCranes = []; // Mảng mới cho hạc giấy
 
 // Các hằng số cho hoạt ảnh
 const gravity = 0.05; // Trọng lực
@@ -192,6 +194,35 @@ function drawHeart(ctx, x, y, size) {
   ctx.closePath();
   ctx.fill();
 }
+
+/**
+ * Draws a stylized paper crane.
+ * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+ * @param {number} x - The X coordinate of the crane's reference point (e.g., tail tip).
+ * @param {number} y - The Y coordinate of the crane's reference point (e.g., tail tip).
+ * @param {number} size - The overall size factor of the crane.
+ */
+function drawPaperCrane(ctx, x, y, size) {
+    ctx.beginPath();
+    // Start from the tail tip
+    ctx.moveTo(x, y);
+    // Left wing
+    ctx.lineTo(x - size * 0.4, y - size * 0.2);
+    ctx.lineTo(x - size * 0.8, y - size * 0.1);
+    // Body left side to neck
+    ctx.lineTo(x - size * 0.4, y - size * 0.4);
+    ctx.lineTo(x - size * 0.2, y - size * 0.6);
+    // Head and neck
+    ctx.lineTo(x, y - size * 0.8); // Head tip (beak)
+    ctx.lineTo(x + size * 0.2, y - size * 0.6); // Neck base right
+    // Body right side to wing
+    ctx.lineTo(x + size * 0.4, y - size * 0.4);
+    ctx.lineTo(x + size * 0.8, y - size * 0.1); // Wing right tip
+    ctx.lineTo(x + size * 0.4, y - size * 0.2); // Wing right base
+    ctx.closePath();
+    ctx.fill();
+}
+
 
 // --- Lớp đối tượng cơ bản ---
 class BaseObject {
@@ -437,12 +468,105 @@ class Balloon extends BaseObject {
     }
 }
 
+// --- Lớp bong bóng xà phòng (SoapBubble) ---
+class SoapBubble extends BaseObject {
+    constructor() {
+        const radius = Math.random() * 15 + 10; // Kích thước bong bóng từ 10 đến 25
+        const x = Math.random() * animationCanvas.width;
+        const y = animationCanvas.height + radius; // Bắt đầu từ dưới màn hình
+        const speedY = -(Math.random() * 0.5 + 0.5); // Tốc độ bay lên
+        const speedX = (Math.random() - 0.5) * 0.5; // Tốc độ di chuyển ngang nhẹ
+        const alpha = Math.random() * 0.3 + 0.3; // Độ trong suốt ban đầu (0.3 - 0.6)
+        const decay = 0.0008; // Tốc độ mờ dần chậm
+        super(x, y, 'rgba(255, 255, 255, 0)', speedX, speedY, alpha, decay, radius); // Màu được tạo trong draw
+        this.oscillationOffset = Math.random() * Math.PI * 2; // Offset cho hiệu ứng lắc lư ngang
+    }
+
+    update() {
+        super.update();
+        this.x += this.speedX + Math.sin((this.y * 0.05) + this.oscillationOffset) * 0.5; // Lắc lư ngang khi bay lên
+    }
+
+    draw() {
+        ctx.save();
+        ctx.globalAlpha = this.alpha; // Sử dụng alpha của đối tượng
+
+        // Vẽ bong bóng chính
+        const gradient = ctx.createRadialGradient(
+            this.x + this.size * 0.3, this.y - this.size * 0.3, this.size * 0.1,
+            this.x, this.y, this.size * 0.8
+        );
+        gradient.addColorStop(0, 'rgba(255, 255, 255, 0.8)'); // Tâm sáng
+        gradient.addColorStop(0.5, 'rgba(173, 216, 230, 0.5)'); // Xanh nhạt trong
+        gradient.addColorStop(1, 'rgba(135, 206, 235, 0.2)'); // Xanh nhạt hơn ở rìa
+
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Thêm đường viền mỏng, óng ánh
+        ctx.strokeStyle = `rgba(255, 255, 255, ${this.alpha * 0.8})`; // Viền trắng hơn
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.restore();
+    }
+
+    isDead() {
+        return super.isDead() || this.y < -this.size; // Bong bóng ra khỏi màn hình
+    }
+}
+
+// --- Lớp hạc giấy (PaperCrane) ---
+class PaperCrane extends BaseObject {
+    constructor() {
+        const x = Math.random() * animationCanvas.width;
+        const y = -Math.random() * 50; // Bắt đầu hơi phía trên màn hình
+        const size = Math.random() * 15 + 10; // Kích thước hạc giấy từ 10 đến 25
+        const speedX = (Math.random() - 0.5) * 1; // Di chuyển ngang ngẫu nhiên
+        const speedY = Math.random() * 0.8 + 0.5; // Tốc độ rơi nhẹ
+        const alpha = 1;
+        const decay = 0.003; // Mờ dần chậm
+        const randomColor = `hsl(${Math.random() * 360}, 100%, 70%)`; // Màu HSL rực rỡ
+
+        super(x, y, randomColor, speedX, speedY, alpha, decay, size);
+        this.rotation = Math.random() * Math.PI * 2; // Góc xoay ban đầu
+        this.rotationSpeed = (Math.random() - 0.5) * 0.05; // Tốc độ xoay ngẫu nhiên
+        this.oscillationOffset = Math.random() * Math.PI * 2; // Offset cho hiệu ứng lắc lư ngang
+    }
+
+    update() {
+        super.update();
+        this.speedY += gravity * 0.1; // Chịu ảnh hưởng rất nhẹ của trọng lực
+        this.rotation += this.rotationSpeed; // Cập nhật góc xoay
+        this.x += Math.sin((this.y * 0.02) + this.oscillationOffset) * 0.5; // Lắc lư ngang khi bay xuống
+    }
+
+    draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y); // Dịch chuyển đến vị trí của hạc giấy
+        ctx.rotate(this.rotation); // Xoay hạc giấy
+        ctx.globalAlpha = this.alpha; // Đặt độ trong suốt
+        ctx.fillStyle = this.color; // Đặt màu tô
+        drawPaperCrane(ctx, 0, 0, this.size); // Vẽ hạc giấy với tâm ở 0,0
+        ctx.restore();
+    }
+
+    isDead() {
+        // Hạc giấy bị loại bỏ khi rơi ra khỏi màn hình phía dưới hoặc mờ hoàn toàn
+        return super.isDead() || this.y > animationCanvas.height + this.size;
+    }
+}
+
 
 // --- Hàm hoạt ảnh chính ---
 function animate() {
     ctx.clearRect(0, 0, animationCanvas.width, animationCanvas.height);
 
-    // Tăng tần suất tạo pháo hoa và giới hạn số lượng tối đa
+    // Cập nhật và vẽ pháo hoa
     if (Math.random() < 0.1 && fireworks.length < 25) {
         const x = Math.random() * animationCanvas.width;
         const y = animationCanvas.height + 20;
@@ -457,6 +581,7 @@ function animate() {
         }
     }
 
+    // Cập nhật và vẽ hạt pháo hoa
     for (let i = particles.length - 1; i >= 0; i--) {
         particles[i].update();
         particles[i].draw();
@@ -465,7 +590,7 @@ function animate() {
         }
     }
 
-    // Tăng số lượng sao tối đa để xuất hiện nhiều hơn
+    // Cập nhật và vẽ sao
     while (stars.length < 60) {
         stars.push(new Star());
     }
@@ -474,7 +599,7 @@ function animate() {
         star.draw();
     });
 
-    // Tăng số lượng trái tim tối đa để xuất hiện nhiều hơn
+    // Cập nhật và vẽ trái tim
     while (hearts.length < 50) {
         hearts.push(new Heart());
     }
@@ -483,7 +608,7 @@ function animate() {
         heart.draw();
     });
 
-    // Tăng tần suất và số lượng bong bóng
+    // Cập nhật và vẽ bong bóng bay
     if (Math.random() < 0.04 && balloons.length < 20) {
         const x = Math.random() * animationCanvas.width;
         const y = animationCanvas.height + 50;
@@ -495,6 +620,30 @@ function animate() {
         balloons[i].draw();
         if (balloons[i].isDead()) {
             balloons.splice(i, 1);
+        }
+    }
+
+    // Cập nhật và vẽ bong bóng xà phòng
+    if (Math.random() < 0.2 && soapBubbles.length < 50) {
+        soapBubbles.push(new SoapBubble());
+    }
+    for (let i = soapBubbles.length - 1; i >= 0; i--) {
+        soapBubbles[i].update();
+        soapBubbles[i].draw();
+        if (soapBubbles[i].isDead()) {
+            soapBubbles.splice(i, 1);
+        }
+    }
+
+    // Cập nhật và vẽ hạc giấy
+    if (Math.random() < 0.3 && paperCranes.length < 70) { // Tần suất tạo hạc giấy và giới hạn số lượng
+        paperCranes.push(new PaperCrane());
+    }
+    for (let i = paperCranes.length - 1; i >= 0; i--) {
+        paperCranes[i].update();
+        paperCranes[i].draw();
+        if (paperCranes[i].isDead()) {
+            paperCranes.splice(i, 1);
         }
     }
 
